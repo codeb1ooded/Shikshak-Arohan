@@ -1,0 +1,11 @@
+
+
+{% if is_registered %}
+    <script>alert("You are successfully registered with Username:{{user_obj.username }} and Email: {{ user_obj.email }}")</script>
+    {% else %}
+    <form action="http://127.0.0.1:8000/api/submitResume/" method="post">
+    {% csrf_token %}
+   {{ form }}
+    <input type="submit" value="Submit">
+    </form>
+{% endif %}
