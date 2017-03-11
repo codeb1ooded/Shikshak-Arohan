@@ -1,4 +1,5 @@
 from django import forms
+from api.choices import * 
 # Create your forms here.
 
 class resumeForm(forms.Form):
@@ -10,7 +11,7 @@ class resumeForm(forms.Form):
 	areaOfExpertise = forms.CharField(max_length=100)
 	address = forms.CharField(max_length=200)
 	city = forms.CharField(max_length=50)
-	state = forms.CharField(max_length=50)
+	state = forms.ChoiceField(choices = STATE_CHOICES, label="State", initial='', widget=forms.Select(), required=True)
 	prefferedLocation = forms.CharField(max_length=50)
 	qualification = forms.CharField(max_length=100)
 	teachingExperience = forms.IntegerField()
