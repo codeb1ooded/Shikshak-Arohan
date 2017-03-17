@@ -15,8 +15,12 @@ Including another URLconf
 """
 from django.conf.urls import include,url
 from django.contrib import admin
+from api.views import createUser, loginUser, verifyUser, logoutUser
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^api/', include('api.urls')),
+    url(r'^api/signUp/', createUser),
+    url(r'^api/login/', loginUser),
+    url(r'^api/verify/', verifyUser),
+    url(r'^api/logout/', logoutUser),
 ]
