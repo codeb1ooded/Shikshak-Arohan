@@ -67,6 +67,44 @@ def createUser(req):
 ''' JSON format
 username
 password
+name
+email
+'''
+def signupUser(req):
+	_username = req.GET['username']
+	_password = req.GET['password']
+	_name = req.GET['name']
+	_email = req.GET['email']
+
+	query_check_user = Teacher.objects.filter(username = _username)
+	if len(query_check_user) >= 1:
+		return JsonResponse({"access_token":"N/A", "name":_name, "username":_username}, status=400)
+
+	_access_token = ''.join(random.choice(string.ascii_uppercase + string.digits + string.ascii_lowercase) for _ in range(16))
+	query_add_user = Teacher( username = _username,
+							   password = _password,
+							   accessToken = _access_token,
+							   name = _name,
+							   email = _email,
+							   age = 0,
+							   contactNum = 0,
+					   		   areaOfExpertise = "",
+					   		   address = "",
+					   		   city = "",
+					   		   state = "",
+					   		   preferredLocation = "",
+					   		   qualification = "",
+					   		   teachingExperience = 0,
+					   		   currentSchool = "" ) # foreign key need to be done
+	query_add_user.save()
+	query_check_user_added = Teacher.objects.filter(username = _username)
+	print(query_check_user_added[0].username)
+	return JsonResponse({"access_token":_access_token, "name":_name, "username":_username}, status=200)
+
+
+''' JSON format
+username
+password
 '''
 def loginUser(req):
 	_username = req.GET['username']
@@ -77,10 +115,12 @@ def loginUser(req):
 	except:
 		return JsonResponse({"Error":"UserNotFound"})
 
-	password_in_db = Teacher.objects.filter(username = _username)[0].password
+	query_get_user = Teacher.objects.filter(username = _username)[0]
+	password_in_db = query_get_user.password
+	_name = query_get_user.name
 	if(password_in_db == _password):
-		Teacher.objects.filter(username = _username).update ( username = _username, auth12 = _access_token)
-		return JsonResponse({"Authentication":_access_token, "Username":_username})
+		Teacher.objects.filter(username = _username).update ( username = _username, accessToken = _access_token)
+		return JsonResponse({"access_token":_access_token, "name":_name, "username":_username})
 	else:
 		return JsonResponse({"Error":"Passwords don't match"})
 
@@ -94,10 +134,10 @@ def verifyUser(req):
 
 	try:
 		query_check_user = Teacher.objects.filter(username = _username)[0]
-		if (query_check_user.auth12 == _access_token) :
-			return JsonResponse({"Error":"Authentication Successfull"})
+		if (query_check_user.accessToken == _access_token) :
+			return JsonResponse({"Error":"Authentication Not Successfull"})
 		else:
-			return JsonResponse({"Success":"User Not Verified"})
+			return JsonResponse({"Success":"User not verified"})
 	except:
 		return JsonResponse({"Error":"User not present"})
 
@@ -107,9 +147,13 @@ access_token
 '''
 def logoutUser(req):
 	_username = req.GET['username']
+	_access_token = req.GET['access_token']
 	try:
 		query_get_user = Teacher.objects.filter(username = _username)[0]
-		Teacher.objects.filter(username = _username).update ( username = _username, auth12 = 'N/A')
-		return JsonResponse({"Success":"Logout Successfull"})
+		if(query_get_user.accessToken == _access_token):
+			Teacher.objects.filter(username = _username).update ( username = _username, accessToken = 'N/A')
+			return JsonResponse({'status':'true','message':"Logout Successfull"}, status=200)
+		else:
+			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
 	except:
-		return JsonResponse({"Error":"User not present"})
+		return JsonResponse({'status':'false','message':"User not present"}, status=404)

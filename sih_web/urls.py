@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from api.views import createUser, loginUser, verifyUser, logoutUser
+from api.views import createUser, loginUser, verifyUser, logoutUser, signupUser
 
 # Add this import
 from django.contrib.auth import views
@@ -29,7 +29,8 @@ urlpatterns = [
     url(r'^home/$', views.logout, {'template_name': 'home.html'}),
 
     # urls for api
-    url(r'^api/signUp/', createUser),
+    url(r'^api/create/', createUser),
+    url(r'^api/signup/', signupUser),
     url(r'^api/login/', loginUser),
     url(r'^api/verify/', verifyUser),
     url(r'^api/logout/', logoutUser),

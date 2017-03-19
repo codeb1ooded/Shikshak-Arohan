@@ -74,6 +74,8 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'sih_web.wsgi.application'
+LOGIN_REDIRECT_URL = '/'
+AUTH_PROFILE_MODULE = 'login.SchoolUser'
 
 
 # Database
