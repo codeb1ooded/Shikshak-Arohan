@@ -2,7 +2,8 @@ from django.shortcuts import render, HttpResponse
 from django.http import JsonResponse
 import random
 import string
-from .models import Teacher
+from .models import *
+from datetime import datetime
 
 # Create your views here.
 def index(req):
@@ -69,6 +70,7 @@ username
 password
 name
 email
+Sample http request: http://127.0.0.1:8000/api/signup/?username=abcdefgh&password=abc&name=abc&age=12&contact_num=34547&email=gasdsh
 '''
 def signupUser(req):
 	_username = req.GET['username']
@@ -85,17 +87,7 @@ def signupUser(req):
 							   password = _password,
 							   accessToken = _access_token,
 							   name = _name,
-							   email = _email,
-							   age = 0,
-							   contactNum = 0,
-					   		   areaOfExpertise = "",
-					   		   address = "",
-					   		   city = "",
-					   		   state = "",
-					   		   preferredLocation = "",
-					   		   qualification = "",
-					   		   teachingExperience = 0,
-					   		   currentSchool = "" ) # foreign key need to be done
+							   email = _email)
 	query_add_user.save()
 	query_check_user_added = Teacher.objects.filter(username = _username)
 	print(query_check_user_added[0].username)
@@ -155,5 +147,36 @@ def logoutUser(req):
 			return JsonResponse({'status':'true','message':"Logout Successfull"}, status=200)
 		else:
 			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
+	except:
+		return JsonResponse({'status':'false','message':"User not present"}, status=404)
+
+''' JSON format
+teacher_username
+date
+latitude
+longitude
+accuracy
+presence
+Sample http request: http://127.0.0.1:8000/api/markattendance/?teacher_username=abcd&date=2012-10-09&latitude=12.11&longitude=340.99&accuracy=80&presence=1
+'''
+def markAttendance(request):
+	_teacher_username = request.GET['teacher_username']
+	_date = request.GET['date']
+	_latitude = float(request.GET['latitude'])
+	_longitude = float(request.GET['longitude'])
+	_accuracy = float(request.GET['accuracy'])
+	_presence = int(request.GET['presence'])
+
+	try:
+		query_check_user = Teacher.objects.filter(username = _teacher_username)[0]
+		query_add_attendance = Attendance(
+									teacher_username = query_check_user,
+									date = datetime.strptime(_date, "%Y-%m-%d").date(),
+									latitude = _latitude,
+									longitude = _longitude,
+									accuracy = _accuracy,
+									presence = _presence)
+		query_add_attendance.save()
+		return JsonResponse({'status':'true','message':"User attendance added successfully"}, status=200)
 	except:
 		return JsonResponse({'status':'false','message':"User not present"}, status=404)

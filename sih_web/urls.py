@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from api.views import createUser, loginUser, verifyUser, logoutUser, signupUser
+from api.views import *
 
 # Add this import
 from django.contrib.auth import views
@@ -34,4 +34,5 @@ urlpatterns = [
     url(r'^api/login/', loginUser),
     url(r'^api/verify/', verifyUser),
     url(r'^api/logout/', logoutUser),
+    url(r'^api/markattendance/', markAttendance),
 ]
