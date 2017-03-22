@@ -36,4 +36,6 @@ urlpatterns = [
     url(r'^api/verify/', verifyUser),
     url(r'^api/logout/', logoutUser),
     url(r'^api/markattendance/', markAttendance),
+    url(r'^api/addschool/', addSchoolToUser),
+    url(r'^api/latlong/', getLatLong),
 ]
