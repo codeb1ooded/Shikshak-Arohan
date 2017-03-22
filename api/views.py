@@ -65,6 +65,62 @@ def createUser(req):
 	print(qquery_check_user_added[0].username)
 	return JsonResponse({"Status":"Success"})
 
+
+''' JSON format
+username
+access_token
+name
+age
+contact_num
+email
+area_of_expertise
+address
+city
+state
+preferred_location
+qualification
+teaching_experience
+Sample http request: (create) http://127.0.0.1:8000/
+'''
+def updateUserDetails(req):
+	_username = req.GET['username']
+	_access_token = req.GET['access_token']
+	_name = req.GET['name']
+	_age = req.GET['age']
+	_contact_num = req.GET['contact_num']
+	_email = req.GET['email']
+	_area_of_expertise = req.GET['area_of_expertise']
+	_address = req.GET['address']
+	_city = req.GET['city']
+	_state = req.GET['state']
+	_preferred_location = req.GET['preferred_location']
+	_qualification = req.GET['qualification']
+	_teaching_experience = req.GET['teaching_experience']
+	_current_school = req.GET['current_school']
+
+	try:
+		query_check_user = Teacher.objects.filter(username = _username)[0]
+		if (query_check_user.accessToken == _access_token) :
+			Teacher.objects.filter(username = _username).update (
+															   name = _name,
+								 							   age = _age,
+								 							   contactNum = _contact_num,
+								 					   		   email = _email,
+								 					   		   areaOfExpertise = _area_of_expertise,
+								 					   		   address = _address,
+								 					   		   city = _city,
+								 					   		   state = _state,
+								 					   		   preferredLocation = _preferred_location,
+								 					   		   qualification = _qualification,
+								 					   		   teachingExperience = _teaching_experience,
+								 					   		   currentSchool = _current_school )
+			return JsonResponse({"status":"updated", "message":"user data updated successfully"}, status=200)
+		else:
+			return JsonResponse({"status":"error", "message":"user not authenticated"}, status=403)
+	except:
+		return JsonResponse({"status":"error", "message":"user not present"}, status=404)
+
+
 ''' JSON format
 username
 password
@@ -116,6 +172,7 @@ def loginUser(req):
 	else:
 		return JsonResponse({"Error":"Passwords don't match"})
 
+
 ''' JSON format
 username
 access_token
@@ -132,6 +189,7 @@ def verifyUser(req):
 			return JsonResponse({"Success":"User not verified"})
 	except:
 		return JsonResponse({"Error":"User not present"})
+
 
 ''' JSON format
 username
@@ -150,11 +208,18 @@ def logoutUser(req):
 	except:
 		return JsonResponse({'status':'false','message':"User not present"}, status=404)
 
+
 ''' JSON format
 teacher_username
 date
-latitude
-longitude
+latitude_1
+longitude_1
+latitude_2
+longitude_2
+latitude_3
+longitude_3
+latitude_4
+longitude_4
 accuracy
 presence
 Sample http request: http://127.0.0.1:8000/api/markattendance/?teacher_username=abcd&date=2012-10-09&latitude=12.11&longitude=340.99&accuracy=80&presence=1
@@ -162,8 +227,14 @@ Sample http request: http://127.0.0.1:8000/api/markattendance/?teacher_username=
 def markAttendance(request):
 	_teacher_username = request.GET['teacher_username']
 	_date = request.GET['date']
-	_latitude = float(request.GET['latitude'])
-	_longitude = float(request.GET['longitude'])
+	_latitude_1 = float(request.GET['latitude_1'])
+	_longitude_1 = float(request.GET['longitude_1'])
+	_latitude_2 = float(request.GET['latitude_2'])
+	_longitude_2 = float(request.GET['longitude_2'])
+	_latitude_3 = float(request.GET['latitude_3'])
+	_longitude_3 = float(request.GET['longitude_3'])
+	_latitude_4 = float(request.GET['latitude_4'])
+	_longitude_4 = float(request.GET['longitude_4'])
 	_accuracy = float(request.GET['accuracy'])
 	_presence = int(request.GET['presence'])
 
@@ -172,11 +243,20 @@ def markAttendance(request):
 		query_add_attendance = Attendance(
 									teacher_username = query_check_user,
 									date = datetime.strptime(_date, "%Y-%m-%d").date(),
-									latitude = _latitude,
-									longitude = _longitude,
+									latitude_1 = _latitude_1,
+									longitude_1 = _longitude_1,
+									latitude_2 = _latitude_2,
+									longitude_2 = _longitude_2,
+									latitude_3 = _latitude_3,
+									longitude_3 = _longitude_3,
+									latitude_4 = _latitude_4,
+									longitude_4 = _longitude_4,
 									accuracy = _accuracy,
 									presence = _presence)
 		query_add_attendance.save()
 		return JsonResponse({'status':'true','message':"User attendance added successfully"}, status=200)
 	except:
 		return JsonResponse({'status':'false','message':"User not present"}, status=404)
+
+
+#def getAllSchools(request):

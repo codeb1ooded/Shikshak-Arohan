@@ -30,6 +30,7 @@ urlpatterns = [
 
     # urls for api
     url(r'^api/create/', createUser),
+    url(r'^api/update/', updateUserDetails),
     url(r'^api/signup/', signupUser),
     url(r'^api/login/', loginUser),
     url(r'^api/verify/', verifyUser),
