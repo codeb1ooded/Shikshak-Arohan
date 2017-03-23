@@ -4,6 +4,8 @@ import random
 import string
 from .models import *
 from datetime import datetime
+from login.models import SchoolUser
+from django.contrib.auth.models import User
 
 # Create your views here.
 def index(req):
@@ -65,6 +67,62 @@ def createUser(req):
 	print(qquery_check_user_added[0].username)
 	return JsonResponse({"Status":"Success"})
 
+
+''' JSON format
+username
+access_token
+name
+age
+contact_num
+email
+area_of_expertise
+address
+city
+state
+preferred_location
+qualification
+teaching_experience
+Sample http request: (create) http://127.0.0.1:8000/
+'''
+def updateUserDetails(req):
+	_username = req.GET['username']
+	_access_token = req.GET['access_token']
+	_name = req.GET['name']
+	_age = req.GET['age']
+	_contact_num = req.GET['contact_num']
+	_email = req.GET['email']
+	_area_of_expertise = req.GET['area_of_expertise']
+	_address = req.GET['address']
+	_city = req.GET['city']
+	_state = req.GET['state']
+	_preferred_location = req.GET['preferred_location']
+	_qualification = req.GET['qualification']
+	_teaching_experience = req.GET['teaching_experience']
+	_current_school = req.GET['current_school']
+
+	try:
+		query_check_user = Teacher.objects.filter(username = _username)[0]
+		if (query_check_user.accessToken == _access_token) :
+			Teacher.objects.filter(username = _username).update (
+															   name = _name,
+								 							   age = _age,
+								 							   contactNum = _contact_num,
+								 					   		   email = _email,
+								 					   		   areaOfExpertise = _area_of_expertise,
+								 					   		   address = _address,
+								 					   		   city = _city,
+								 					   		   state = _state,
+								 					   		   preferredLocation = _preferred_location,
+								 					   		   qualification = _qualification,
+								 					   		   teachingExperience = _teaching_experience,
+								 					   		   currentSchool = _current_school )
+			return JsonResponse({"status":"updated", "message":"user data updated successfully"}, status=200)
+		else:
+			return JsonResponse({"status":"error", "message":"user not authenticated"}, status=403)
+	except:
+		return JsonResponse({"status":"error", "message":"user not present"}, status=404)
+
+
 ''' JSON format
 username
 password
@@ -105,16 +163,17 @@ def loginUser(req):
 	try:
 		query_check_user = Teacher.objects.filter(username = _username)[0].username
 	except:
-		return JsonResponse({"Error":"UserNotFound"})
+		return JsonResponse({"message":"user not found", "access_token":"N/A", "name":"N/A", "username":_username}, status=404)
 
 	query_get_user = Teacher.objects.filter(username = _username)[0]
 	password_in_db = query_get_user.password
 	_name = query_get_user.name
 	if(password_in_db == _password):
 		Teacher.objects.filter(username = _username).update ( username = _username, accessToken = _access_token)
-		return JsonResponse({"access_token":_access_token, "name":_name, "username":_username})
+		return JsonResponse({"message":"login done, access token granted", "access_token":_access_token, "name":_name, "username":_username}, status=200)
 	else:
-		return JsonResponse({"Error":"Passwords don't match"})
+		return JsonResponse({"message":"wrong password", "access_token":"N/A", "name":"N/A", "username":_username}, status=400)
+
 
 ''' JSON format
 username
@@ -133,6 +192,7 @@ def verifyUser(req):
 	except:
 		return JsonResponse({"Error":"User not present"})
 
+
 ''' JSON format
 username
 access_token
@@ -150,11 +210,18 @@ def logoutUser(req):
 	except:
 		return JsonResponse({'status':'false','message':"User not present"}, status=404)
 
+
 ''' JSON format
 teacher_username
 date
-latitude
-longitude
+latitude_1
+longitude_1
+latitude_2
+longitude_2
+latitude_3
+longitude_3
+latitude_4
+longitude_4
 accuracy
 presence
 Sample http request: http://127.0.0.1:8000/api/markattendance/?teacher_username=abcd&date=2012-10-09&latitude=12.11&longitude=340.99&accuracy=80&presence=1
@@ -162,8 +229,14 @@ Sample http request: http://127.0.0.1:8000/api/markattendance/?teacher_username=
 def markAttendance(request):
 	_teacher_username = request.GET['teacher_username']
 	_date = request.GET['date']
-	_latitude = float(request.GET['latitude'])
-	_longitude = float(request.GET['longitude'])
+	_latitude_1 = float(request.GET['latitude_1'])
+	_longitude_1 = float(request.GET['longitude_1'])
+	_latitude_2 = float(request.GET['latitude_2'])
+	_longitude_2 = float(request.GET['longitude_2'])
+	_latitude_3 = float(request.GET['latitude_3'])
+	_longitude_3 = float(request.GET['longitude_3'])
+	_latitude_4 = float(request.GET['latitude_4'])
+	_longitude_4 = float(request.GET['longitude_4'])
 	_accuracy = float(request.GET['accuracy'])
 	_presence = int(request.GET['presence'])
 
@@ -172,11 +245,73 @@ def markAttendance(request):
 		query_add_attendance = Attendance(
 									teacher_username = query_check_user,
 									date = datetime.strptime(_date, "%Y-%m-%d").date(),
-									latitude = _latitude,
-									longitude = _longitude,
+									latitude_1 = _latitude_1,
+									longitude_1 = _longitude_1,
+									latitude_2 = _latitude_2,
+									longitude_2 = _longitude_2,
+									latitude_3 = _latitude_3,
+									longitude_3 = _longitude_3,
+									latitude_4 = _latitude_4,
+									longitude_4 = _longitude_4,
 									accuracy = _accuracy,
 									presence = _presence)
 		query_add_attendance.save()
 		return JsonResponse({'status':'true','message':"User attendance added successfully"}, status=200)
 	except:
 		return JsonResponse({'status':'false','message':"User not present"}, status=404)
+
+
+''' JSON format
+username
+access_token
+school_username
+Sample http request: http://127.0.0.1:8000/api/addschool?username=abcdefgh&access_token=jXL9F2iL0j2Agjou&school_username=abcd
+'''
+def addSchoolToUser(request):
+	_username = request.GET['username']
+	_access_token = request.GET['access_token']
+	_school_username = request.GET['school_username']
+	try:
+		query_get_user = Teacher.objects.filter(username = _username)[0]
+		if(query_get_user.accessToken == _access_token):
+			try:
+				query_get_school_user = User.objects.filter(username = _school_username)[0]
+				query_get_user_in_school_table = SchoolUser.objects.filter(user = query_get_school_user)[0]
+				Teacher.objects.filter(username = _username).update ( username = _username, currentSchool = query_get_user_in_school_table)
+				return JsonResponse({'status':'true','message':"school added successfully"}, status=200)
+			except:
+				return JsonResponse({'status':'false','message':"School username not present"}, status=404)
+		else:
+			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
+	except:
+		return JsonResponse({'status':'false','message':"User not present"}, status=404)
+
+
+''' JSON format
+username
+access_token
+school_username
+Sample http request: http://127.0.0.1:8000/api/latlong?username=abcdefgh&access_token=jXL9F2iL0j2Agjou&school_username=abcd
+'''
+def getLatLong(request):
+	_username = request.GET['username']
+	_access_token = request.GET['access_token']
+	_school_username = request.GET['school_username']
+	try:
+		query_get_user = Teacher.objects.filter(username = _username)[0]
+		if(query_get_user.accessToken == _access_token):
+			try:
+				query_get_school_user = User.objects.filter(username = _school_username)[0]
+				query_get_user_in_school_table = SchoolUser.objects.filter(user = query_get_school_user)[0]
+				_latitude = query_get_user_in_school_table.latitude
+				_longitude = query_get_user_in_school_table.longitude
+				return JsonResponse({'status':'true','message':"school data returned successfully",
+						'latitude':_latitude, 'longitude':_longitude}, status=200)
+			except:
+				return JsonResponse({'status':'false','message':"School username not present"}, status=404)
+		else:
+			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
+	except:
+		return JsonResponse({'status':'false','message':"User not present"}, status=404)
+
+#def getAllSchools(request):

@@ -8,3 +8,7 @@ from django.core.context_processors import csrf
 @login_required(login_url="login/")
 def home(request):
     return render(request,"home.html")
+
+
+def map_function(request):
+    return render(request,"rough.html")

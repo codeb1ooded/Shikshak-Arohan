@@ -1,16 +1,18 @@
+{% load staticfiles %}
+
 <!DOCTYPE html>
 <html>
 <head>
     <title></title>
 
-    <script type="text/javascript" src="js/fusioncharts.js"></script>
-    <script type="text/javascript" src="js/themes/fusioncharts.theme.fint.js"></script>
-    <script type="text/javascript" src="js/fusioncharts.charts.js"></script>
-    <script type="text/javascript" src="js/fusioncharts.charts.js"></script>
+    <script type="text/javascript" src="{% static 'js/fusioncharts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/themes/fusioncharts.theme.fint.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fusioncharts.charts.js' %}"></script>
+    <script type="text/javascript" src="{% static 'js/fusioncharts.charts.js' %}"></script>
 
 </head>
 <body>
-    <!-- 
+    <!--
     Drill-down from map to chart using LinkedCharts. Click on California, Texas, or North Carolina states.
 -->
 
@@ -403,7 +405,7 @@
         }
     }, 0);
     wrCoverage.render();
-});    
+});
 
 
 </script>

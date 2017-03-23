@@ -16,23 +16,28 @@ Including another URLconf
 from django.conf.urls import url, include
 from django.contrib import admin
 from api.views import *
+from login.views import *
 
-# Add this import
 from django.contrib.auth import views
 from login.forms import LoginForm
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'', include('login.urls')),
     url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}),
     url(r'^logout/$', views.logout, {'next_page': '/login'}),
     url(r'^home/$', views.logout, {'template_name': 'home.html'}),
 
+    url(r'^$', home, name='home'),
+    url(r'^map/$', map_function),
+
     # urls for api
     url(r'^api/create/', createUser),
+    url(r'^api/update/', updateUserDetails),
     url(r'^api/signup/', signupUser),
     url(r'^api/login/', loginUser),
     url(r'^api/verify/', verifyUser),
     url(r'^api/logout/', logoutUser),
     url(r'^api/markattendance/', markAttendance),
+    url(r'^api/addschool/', addSchoolToUser),
+    url(r'^api/latlong/', getLatLong),
 ]
