@@ -15,6 +15,7 @@ class SchoolUser(models.Model):
     city = models.CharField(max_length=30, blank=True)
     city_id = models.CharField(max_length=10, blank=True)
     numOfStudents = models.IntegerField(null=True, blank=True)
+    numOfTeachers = models.IntegerField(null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     wifi_zone = models.NullBooleanField()

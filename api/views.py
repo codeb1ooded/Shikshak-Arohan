@@ -4,7 +4,7 @@ import random
 import string
 from .models import *
 from datetime import datetime
-from login.models import SchoolUser
+from login.models import *
 from django.contrib.auth.models import User
 
 # Create your views here.
@@ -314,4 +314,57 @@ def getLatLong(request):
 	except:
 		return JsonResponse({'status':'false','message':"User not present"}, status=404)
 
-#def getAllSchools(request):
+
+''' JSON format
+username
+access_token
+school_username
+from_day
+from_month
+from_year
+to_day
+to_month
+to_year
+Sample http request:
+'''
+def getPresentAndHolidays(request):
+	_username = request.GET['username']
+	_access_token = request.GET['access_token']
+	_school_username = request.GET['school_username']
+	_from_year = request.GET['from_year']
+	_from_month = request.GET['from_month']
+	_from_day = request.GET['from_day']
+	_to_year = request.GET['to_year']
+	_to_month = request.GET['to_month']
+	_to_day = request.GET['to_day']
+	try:
+		_query_get_teacher = Teacher.objects.filter(username = _username)[0]
+		_query_get_school_user = User.objects.filter(username = _school_username)[0]
+		_query_get_school = SchoolUser.objects.filter(user = _query_get_school_user)[0]
+		if(_query_get_teacher.accessToken == _access_token):
+			_present_dates = Attendance_Present.objects.filter(teacher_username = _query_get_teacher,
+								date__range=[_from_year+"-"+_from_month+"-"+_from_day, _to_year+"-"+_to_month+"-"+_to_day])
+			_holiday_dates = Attendance_Holiday.objects.filter(school_user = _query_get_school,
+								date__range=[_from_year+"-"+_from_month+"-"+_from_day, _to_year+"-"+_to_month+"-"+_to_day])
+
+			_present_dates_array = []
+			_holiday_dates_array = []
+
+			for date in _present_dates:
+				_present_date = {'year': date.date.year,
+								 'month': date.date.month,
+								 'day': date.date.day }
+				_present_dates_array.append(_present_date)
+
+			for date in _holiday_dates:
+				_holiday_date = {'year': date.date.year,
+								 'month': date.date.month,
+								 'day': date.date.day }
+				_holiday_dates_array.append(_holiday_date)
+
+			return JsonResponse({'status':'true','message':"school data returned successfully",
+								  'present':_present_dates_array, 'holiday':_holiday_dates_array}, status=200)
+		else:
+			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
+	except:
+		return JsonResponse({'status':'false','message':"User not present"}, status=404)

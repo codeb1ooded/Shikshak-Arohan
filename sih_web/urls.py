@@ -40,4 +40,5 @@ urlpatterns = [
     url(r'^api/markattendance/', markAttendance),
     url(r'^api/addschool/', addSchoolToUser),
     url(r'^api/latlong/', getLatLong),
+    url(r'^api/presentholidays/', getPresentAndHolidays)
 ]

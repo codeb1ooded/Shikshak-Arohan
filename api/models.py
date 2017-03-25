@@ -24,7 +24,7 @@ class Teacher(models.Model):
 		blank=True,
     )
 
-class Attendance(models.Model):
+class Attendance_Present(models.Model):
 	teacher_username = models.ForeignKey(
 	        'Teacher',
 	        on_delete=models.CASCADE,
@@ -39,4 +39,10 @@ class Attendance(models.Model):
 	latitude_4 = models.FloatField(null=True, blank=True)
 	longitude_4 = models.FloatField(null=True, blank=True)
 	accuracy = models.FloatField(null=True, blank=True)
-	presence = models.IntegerField()
+
+class Attendance_Holiday(models.Model):
+	school_user = models.ForeignKey(
+	        SchoolUser,
+	        on_delete=models.CASCADE,
+	    )
+	date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
