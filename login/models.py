@@ -12,6 +12,8 @@ class SchoolUser(models.Model):
     address = models.CharField(max_length=30, blank=True)
     state = models.CharField(max_length=30, blank=True)
     state_id = models.CharField(max_length=3, blank=True)
+    district = models.CharField(max_length=30, blank=True)
+    district_id = models.CharField(max_length=10, blank=True)
     city = models.CharField(max_length=30, blank=True)
     city_id = models.CharField(max_length=10, blank=True)
     numOfStudents = models.IntegerField(null=True, blank=True)
@@ -35,8 +37,16 @@ class State(models.Model):
     state_name = models.CharField(max_length=50, blank=True)
     state_ids = models.CharField(max_length=50, blank=True)
 
+
+class District(models.Model):
+    id = models.CharField(max_length=10, primary_key=True)
+    district_name = models.CharField(max_length=50, blank=True)
+    city_ids = models.CharField(max_length=50, blank=True)
+    district_foreign_id = models.CharField(max_length=3, blank=True)
+
+
 class City(models.Model):
     id = models.CharField(max_length=10, primary_key=True)
     city_name = models.CharField(max_length=50, blank=True)
     city_ids = models.CharField(max_length=50, blank=True)
-    state_foreign_id = models.CharField(max_length=3, blank=True)
+    district_foreign_id = models.CharField(max_length=3, blank=True)

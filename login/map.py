@@ -1,6 +1,5 @@
 import json
-from api.models import *
-from login.models import *
+from .database_operations import *
 from array import *
 
 state = [ 'Andaman and Nicobar Islands', 'Andhra Pradesh', 'Arunachal Pradesh', 'Assam',
@@ -49,23 +48,23 @@ def return_data_array():
         current_state_id = "newchart-json-" + state_ids[i]
         data_json = {}
         data_json["id"] = state_id_int[i]
+        data_json["value"] = student_teacher_ratio_state(state_id_int[i])
         data_json["showLabel"] = "0"
         data_json["color"] = "#008ee4"
         data_json["link"] = current_state_id
         data_json["hoverColor"] = "#ffccff"
         data_json["showHoverEffect"] = "1"
         data_array_in_json.append(data_json)
-
     return data_array_in_json
 
 
 def return_state_chart_dict(current_state):
     chart= {}
     chart["caption"] = current_state + " - Monitoring"
-    chart["subCaption"] = "Last Month"
-    chart["pyaxisname"] = "Units"
-    chart["syaxisname"] = "Cost"
-    chart["xAxisName"] = "State"
+    chart["subCaption"] = "<Add time here>"
+    chart["pyaxisname"] = "Student teacher ratio"
+    chart["syaxisname"] = "Attendance ratio"
+    chart["xAxisName"] = "Cities"
     chart["showvalues"] = "0"
     chart["labelDisplay"] = "rotate"
     chart["slantLabel"] = "1"
@@ -83,13 +82,13 @@ def return_state_categories_dataset():
     dataset1 = {}
     dataset2 = {}
 
-    dataset1["seriesname"] = "Series 1"
-    dataset2["seriesname"] = "Series 2"
+    dataset1["seriesname"] = "Student-Teacher ratio"
+    dataset2["seriesname"] = "Teacher Attendance Monitoring"
 
     data1 = []
     data2 = []
 
-    for i in range(0, 10):
+    for i in range(0, 50):
         label_dict = {}
         label_dict['label'] = "abcd"
         category_array.append(label_dict)
@@ -112,7 +111,6 @@ def return_state_categories_dataset():
     dataset.append(dataset2)
     categories_dataset["categories"] = categories
     categories_dataset["dataset"] = dataset
-    print dataset
     return categories_dataset
 
 
@@ -128,7 +126,7 @@ def return_linked_chart_dict(i):
     return linked_chart
 
 
-def return_linked_data():
+def return_country_linked_data():
     linked_data_array_in_json = []
     for i in range(0, len(state)):
         current_state = state[i]
@@ -164,8 +162,8 @@ def main_map_function():
     final_json = {
         'type': 'india',
         'renderAt': 'chart-container',
-        'width': '650',
-        'height': '450',
+        'width': '1200',
+        'height': '600',
         'dataFormat': 'json',
         'dataSource': {
             "map": {
@@ -189,6 +187,5 @@ def main_map_function():
     }
 
     final_json["dataSource"]["data"] = return_data_array()
-    final_json["dataSource"]["linkeddata"] = return_linked_data()
-    #print final_json["dataSource"]["linkeddata"][0]
+    final_json["dataSource"]["linkeddata"] = return_country_linked_data()
     return json.dumps(final_json)
