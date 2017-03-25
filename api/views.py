@@ -325,7 +325,7 @@ from_year
 to_day
 to_month
 to_year
-Sample http request:
+Sample http request: http://127.0.0.1:8000/api/presentholidays/?username=random1&access_token=abcdefgh&school_username=megha&from_day=8&from_month=3&from_year=2017&to_day=23&to_month=3&to_year=2017
 '''
 def getPresentAndHolidays(request):
 	_username = request.GET['username']
