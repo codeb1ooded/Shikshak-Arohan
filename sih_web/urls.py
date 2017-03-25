@@ -28,7 +28,10 @@ urlpatterns = [
     url(r'^home/$', views.logout, {'template_name': 'home.html'}),
 
     url(r'^$', home, name='home'),
-    url(r'^map/$', map_function),
+    url(r'^mapcountry/$', map_country_function),
+    url(r'^mapstate/$', map_state_function),
+    url(r'^mapdistrict/$', map_district_function),
+    url(r'^mapcity/$', map_city_function),
 
     # urls for api
     url(r'^api/create/', createUser),
