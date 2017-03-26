@@ -17,22 +17,22 @@ def home(request):
 
 def map_country_function(request):
     json = country_map_function()
-    return render(request,"rough.html", {'json_map':json})
+    return render(request,"rough.html", {'json_map':json, 'url':'../mapcountry?country=india'})
 
 
 def map_state_function(request):
     _state = request.GET['state']
     json = state_map_function(_state)
-    return render(request,"rough.html", {'json_map':json})
+    return render(request,"rough.html", {'json_map':json, 'url':'../mapstate?state='+_state})
 
 
 def map_district_function(request):
     _district = request.GET['district']
     json = district_map_function(_district)
-    return render(request,"rough.html", {'json_map':json})
+    return render(request,"rough.html", {'json_map':json, 'url':'../mapdistrict?district='+_district})
 
 
 def map_city_function(request):
     _city = request.GET['city']
     json = city_map_function(_city)
-    return render(request,"rough.html", {'json_map':json})
+    return render(request,"rough.html", {'json_map':json, 'url':'../mapcity?city='+_city})

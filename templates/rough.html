@@ -1,23 +1,40 @@
 {% load staticfiles %}
 
 <!DOCTYPE html>
-<html>
+<html ng-app="ShikshakArohan" ng-cloak>
 <head>
     <title></title>
 
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css" rel="stylesheet">
+    <link href="{% static 'css/map.css' %}" rel="stylesheet">
     <script type="text/javascript" src="{% static 'js/fusioncharts.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/themes/fusioncharts.theme.fint.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fusioncharts.charts.js' %}"></script>
     <script type="text/javascript" src="{% static 'js/fusioncharts.charts.js' %}"></script>
-
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="{% static 'js/map/map.js' %}"></script>
 </head>
 <body>
-    <!--
-    Drill-down from map to chart using LinkedCharts. Click on California, Texas, or North Carolina states.
--->
 
-<div id="chart-container">FusionCharts will render here</div>
+<div class="date-picker">
+	<div class="input">
+		<div class="to result">To: <span></span></div>
+		<button><i class="fa fa-calendar"></i></button>
+	</div>
+	<div class="calendar calendar-to"></div>
+</div>
 
+<div class="date-picker">
+	<div class="input">
+		<div class="from result">From: <span></span></div>
+		<button><i class="fa fa-calendar"></i></button>
+	</div>
+	<div class="calendar calendar-from"></div>
+</div>
+<a class="btn" href="{{ url }}" id="apply-button">Apply</a>
+
+<div id="chart-container" style="margin-top: 80px;">FusionCharts will render here</div>
 
 <script type="text/javascript">
     var json_data = JSON.parse('{{ json_map | escapejs }}');
