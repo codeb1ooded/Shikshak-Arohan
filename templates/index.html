@@ -19,7 +19,6 @@
     <script type="text/javascript" src="{% static 'js/fusioncharts.charts.js' %}"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
     <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.11.2/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="{% static 'js/map/map.js' %}"></script>
   </head>
   <body>
     <div class='navbar navbar-default navbar-static-top'>
@@ -42,14 +41,14 @@
     </div>
     <div class='container-fluid'>
       <div class='row'>
-        <div class='col-md-3'>
+        <div class='col-md-4'>
           <div class='well'>
             <h4>
               Time Filter:
             </h4>
             <div class="date-picker">
             	<div class="input">
-            		<div class="to result">To: <span></span></div>
+            		<div class="to result">To: <span>{{ to }}</span></div>
             		<button><i class="fa fa-calendar"></i></button>
             	</div>
             	<div class="calendar calendar-to"></div>
@@ -57,7 +56,7 @@
 
             <div class="date-picker">
             	<div class="input">
-            		<div class="from result">From: <span></span></div>
+            		<div class="from result">From: <span>{{ from }}</span></div>
             		<button><i class="fa fa-calendar"></i></button>
             	</div>
             	<div class="calendar calendar-from"></div>
@@ -70,6 +69,40 @@
         </div>
       </div>
     </div>
+    <script>
+    $(function() {
+        var $to = '{{ to }}';
+        var $from = '{{ from }}';
+        $( ".calendar" ).datepicker({
+            dateFormat: 'dd-mm-yy',
+            firstDay: 1
+        });
+
+        $(document).on('click', '.date-picker .input', function(e){
+            var $me = $(this),
+                    $parent = $me.parents('.date-picker');
+            $parent.toggleClass('open');
+        });
+
+        $(".calendar-to").on("change",function(){
+            var $me = $(this),
+                    $selected = $me.val(),
+                    $parent = $me.parents('.date-picker');
+            $parent.find('.result').children('span').html($selected);
+            $to = $selected;
+            $("#apply-button").attr("href", "{{ url }}" + "&to=" + $to + "&from=" + $from);
+        });
+
+        $(".calendar-from").on("change",function(){
+            var $me = $(this),
+                    $selected = $me.val(),
+                    $parent = $me.parents('.date-picker');
+            $parent.find('.result').children('span').html($selected);
+            $from = $selected;
+            $("#apply-button").attr("href", "{{ url }}" + "&to=" + $to + "&from=" + $from);
+        });
+    });
+    </script>
     <script type="text/javascript">
         var json_data = JSON.parse('{{ json_map | escapejs }}');
         FusionCharts.ready(function () {

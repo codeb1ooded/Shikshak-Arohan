@@ -3,7 +3,10 @@ from login.models import *
 from datetime import date
 
 def districts_in_state(_state_id):
-    return District.objects.filter(state_id = _state_id)
+    return District.objects.filter(state_foreign_id = _state_id)
+
+def cities_in_district(_district_id):
+    return City.objects.filter(district_foreign_id = _district_id)
 
 def schools_in_a_state(_state_id):
     return SchoolUser.objects.filter(state_id = _state_id)
@@ -78,7 +81,7 @@ def teacher_attendance_city(city_id, _from_day, _from_month, _from_year, _to_day
     ratio = 0
     num_of_schools = len(school_city)
     for school in school_city:
-        ratio += teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
+        ratio += teacher_attendance_school(school)
     return ratio / num_of_schools
 
 
@@ -87,7 +90,7 @@ def teacher_attendance_district(district_id, _from_day, _from_month, _from_year,
     ratio = 0
     num_of_schools = len(school_district)
     for school in school_district:
-        ratio += teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
+        ratio += teacher_attendance_school(school)
     return ratio / num_of_schools
 
 
@@ -96,5 +99,5 @@ def teacher_attendance_state(state_id, _from_day, _from_month, _from_year, _to_d
     ratio = 0
     num_of_schools = len(school_state)
     for school in school_state:
-        ratio += teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
+        ratio += teacher_attendance_school(school)
     return ratio / num_of_schools

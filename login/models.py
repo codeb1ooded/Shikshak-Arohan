@@ -8,14 +8,15 @@ from django.db.models.signals import post_save
 
 class SchoolUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="schooluser")
+    name = models.CharField(max_length=50)
     timing = models.TextField(max_length=500, blank=True)
     address = models.CharField(max_length=30, blank=True)
     state = models.CharField(max_length=30, blank=True)
     state_id = models.CharField(max_length=3, blank=True)
     district = models.CharField(max_length=30, blank=True)
-    district_id = models.CharField(max_length=10, blank=True)
+    district_id = models.CharField(max_length=6, blank=True)
     city = models.CharField(max_length=30, blank=True)
-    city_id = models.CharField(max_length=10, blank=True)
+    city_id = models.CharField(max_length=9, blank=True)
     numOfStudents = models.IntegerField(null=True, blank=True)
     numOfTeachers = models.IntegerField(null=True, blank=True)
     latitude = models.FloatField(null=True, blank=True)
@@ -39,14 +40,14 @@ class State(models.Model):
 
 
 class District(models.Model):
-    id = models.CharField(max_length=10, primary_key=True)
+    id = models.CharField(max_length=6, primary_key=True)
     district_name = models.CharField(max_length=50, blank=True)
-    city_ids = models.CharField(max_length=50, blank=True)
-    district_foreign_id = models.CharField(max_length=3, blank=True)
+    headquaters = models.CharField(max_length=50, blank=True)
+    state_foreign_id = models.CharField(max_length=3, blank=True)
 
 
 class City(models.Model):
-    id = models.CharField(max_length=10, primary_key=True)
+    id = models.CharField(max_length=9, primary_key=True)
     city_name = models.CharField(max_length=50, blank=True)
     city_ids = models.CharField(max_length=50, blank=True)
-    district_foreign_id = models.CharField(max_length=3, blank=True)
+    district_foreign_id = models.CharField(max_length=6, blank=True)
