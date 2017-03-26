@@ -272,7 +272,7 @@ def country_map_function():
     final_json = {
         'type': 'india',
         'renderAt': 'chart-container',
-        'width': '1200',
+        'width': '800',
         'height': '600',
         'dataFormat': 'json',
         'dataSource': {

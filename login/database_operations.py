@@ -78,7 +78,7 @@ def teacher_attendance_city(city_id, _from_day, _from_month, _from_year, _to_day
     ratio = 0
     num_of_schools = len(school_city)
     for school in school_city:
-        ratio += teacher_attendance_school(school)
+        ratio += teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
     return ratio / num_of_schools
 
 
@@ -87,7 +87,7 @@ def teacher_attendance_district(district_id, _from_day, _from_month, _from_year,
     ratio = 0
     num_of_schools = len(school_district)
     for school in school_district:
-        ratio += teacher_attendance_school(school)
+        ratio += teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
     return ratio / num_of_schools
 
 
@@ -96,5 +96,5 @@ def teacher_attendance_state(state_id, _from_day, _from_month, _from_year, _to_d
     ratio = 0
     num_of_schools = len(school_state)
     for school in school_state:
-        ratio += teacher_attendance_school(school)
+        ratio += teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
     return ratio / num_of_schools
