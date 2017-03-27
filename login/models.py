@@ -38,6 +38,9 @@ class State(models.Model):
     state_name = models.CharField(max_length=50, blank=True)
     state_ids = models.CharField(max_length=50, blank=True)
 
+    def __str__(self):
+        return "Id: "+ self.id + " Name: " + self.state_name
+
 
 class District(models.Model):
     id = models.CharField(max_length=6, primary_key=True)
@@ -46,8 +49,15 @@ class District(models.Model):
     state_foreign_id = models.CharField(max_length=3, blank=True)
 
 
+    def __str__(self):
+        return "Id: "+ self.id + " Name: " + self.district_name +" Foreign Key: "+ self.state_foreign_id
+
 class City(models.Model):
     id = models.CharField(max_length=9, primary_key=True)
     city_name = models.CharField(max_length=50, blank=True)
     city_ids = models.CharField(max_length=50, blank=True)
     district_foreign_id = models.CharField(max_length=6, blank=True)
+
+
+    def __str__(self):
+        return "Id: "+ self.id + " Name: " + self.city_name +" Foreign Key: "+ self.district_foreign_id

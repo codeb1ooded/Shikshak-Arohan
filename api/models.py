@@ -23,6 +23,11 @@ class Teacher(models.Model):
 		null=True,
 		blank=True,
     )
+	def __str__(self):
+	    return "Username:" + self.username +  "  Name: " + self.name
+
+
+
 
 class Attendance_Present(models.Model):
 	teacher_username = models.ForeignKey(
