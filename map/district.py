@@ -17,16 +17,12 @@ def return_district_categories_dataset(_district_id, _to, _from, _teacher_cat):
     data1 = []
     data2 = []
 
-    _to_day = _to_month = _to_year = 0
-    _from_day = _from_month = _from_year = 0
-    if len(_to) > 0:
-        _to_day = _to[0] + _to[1]
-        _to_month = _to[3] + _to[4]
-        _to_year = _to[6] + _to[7] + _to[8] + _to[9]
-    if len(_from) > 0:
-        _from_day = _from[0] + _from[1]
-        _from_month = _from[3] + _from[4]
-        _from_year = _from[6] + _from[7] + _from[8] + _from[9]
+    _to_day = _to[0] + _to[1]
+    _to_month = _to[3] + _to[4]
+    _to_year = _to[6] + _to[7] + _to[8] + _to[9]
+    _from_day = _from[0] + _from[1]
+    _from_month = _from[3] + _from[4]
+    _from_year = _from[6] + _from[7] + _from[8] + _from[9]
 
     cities = cities_in_district(_district_id)
     max_ratio = 0

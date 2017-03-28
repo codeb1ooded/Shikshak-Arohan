@@ -19,6 +19,7 @@ from map.state import *
 from map.city import *
 import random
 from datetime import datetime
+import time
 
 @login_required(login_url="login/")
 def home(request):
@@ -33,8 +34,8 @@ def map_country_function(request):
     if 'from' in request.GET:                   _from = request.GET['from']
     if 'teachercategory' in request.GET:        _teacher_cat = request.GET['teachercategory']
 
-    if _to == 'undefined':                       _to =''
-    if _from == 'undefined':                     _from =''
+    if _to == 'undefined':                       _to = '2000-01-01'
+    if _from == 'undefined':                     _from = time.strftime("%Y-%m-%d")
     if _teacher_cat == 'undefined':              _teacher_cat = ''
     json = country_map_function(_to, _from, _teacher_cat)
     return render(request,"index.html", {'json_map':json, 'url':'../mapcountry?country=india',
@@ -52,10 +53,11 @@ def map_state_function(request):
         if 'from' in request.GET:                   _from = request.GET['from']
         if 'teachercategory' in request.GET:        _teacher_cat = request.GET['teachercategory']
 
-        if _to == 'undefined':                       _to =''
-        if _from == 'undefined':                     _from =''
+        if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2000'
+        if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%d-%m-%Y")
         if _teacher_cat == 'undefined':              _teacher_cat = ''
-
+        print _to
+        print _from
         json = state_map_function(_state_id, _state, _to, _from, _teacher_cat)
         _url = '../mapstate?state=' + _state + '&stateid=' + _state_id
         return render(request,"index.html", {'json_map':json, 'url':_url,
@@ -71,12 +73,12 @@ def map_district_function(request):
         _to = 'undefined'
         _from = 'undefined'
         _teacher_cat = 'undefined'
-        if 'to' in request.GET:                     _to = request.GET['to']
-        if 'from' in request.GET:                   _from = request.GET['from']
+        if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2000'
+        if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%d-%m-%Y")
         if 'teachercategory' in request.GET:        _teacher_cat = request.GET['teachercategory']
 
-        if _to == 'undefined':                       _to =''
-        if _from == 'undefined':                     _from =''
+        if _to == 'undefined' or len(_to) == 0:              _to = '2000-01-01'
+        if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%Y-%m-%d")
         if _teacher_cat == 'undefined':              _teacher_cat = ''
 
         json = district_map_function(_district_id, _district, _to, _from, _teacher_cat)
@@ -94,12 +96,12 @@ def map_city_function(request):
         _to = 'undefined'
         _from = 'undefined'
         _teacher_cat = 'undefined'
-        if 'to' in request.GET:                     _to = request.GET['to']
-        if 'from' in request.GET:                   _from = request.GET['from']
+        if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2000'
+        if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%d-%m-%Y")
         if 'teachercategory' in request.GET:        _teacher_cat = request.GET['teachercategory']
 
-        if _to == 'undefined':                       _to =''
-        if _from == 'undefined':                     _from =''
+        if _to == 'undefined' or len(_to) == 0:              _to = '2000-01-01'
+        if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%Y-%m-%d")
         if _teacher_cat == 'undefined':              _teacher_cat = ''
 
         json = city_map_function(_city_id, _city, _to, _from)
