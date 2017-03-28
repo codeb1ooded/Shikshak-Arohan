@@ -73,7 +73,7 @@ def return_city_chart(current_city, _to, _from):
         chart["subCaption"] = "For all the records"
     chart["pyaxisname"] = "Student teacher ratio"
     chart["syaxisname"] = "Attendance ratio"
-    chart["xAxisName"] = "Cities"
+    chart["xAxisName"] = "Schools"
     chart["showvalues"] = "0"
     chart["labelDisplay"] = "rotate"
     chart["slantLabel"] = "1"
