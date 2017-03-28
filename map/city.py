@@ -17,21 +17,42 @@ def return_city_categories_dataset(_city_id, _to, _from):
     data1 = []
     data2 = []
 
-    schools = schools_in_a_city(_city_id)
+    _to_day = _to_month = _to_year = 0
+    _from_day = _from_month = _from_year = 0
+    if len(_to) > 0:
+        _to_day = _to[0] + _to[1]
+        _to_month = _to[3] + _to[4]
+        _to_year = _to[6] + _to[7] + _to[8] + _to[9]
+    if len(_from) > 0:
+        _from_day = _from[0] + _from[1]
+        _from_month = _from[3] + _from[4]
+        _from_year = _from[6] + _from[7] + _from[8] + _from[9]
 
-    for i in range(0, len(schools)):
-        school = schools[i]
+    schools = schools_in_a_city(_city_id)
+    max_ratio = 0
+
+    for school in schools:
         label_dict = {}
         label_dict['label'] = school.name
         label_dict['link'] = ""
         category_array.append(label_dict)
         data1_ = {}
-        data1_['value'] = student_teacher_ratio_school(school)
+        ratio = student_teacher_ratio_school(school)
+        data1_['value'] = ratio
+        data1_['displayValue'] = ratio
+        data1_['showValue'] = 1
+        if ratio > max_ratio:
+            max_ratio = data1_['value']
         data1.append(data1_)
-        data2_ = {}
-        data2_['value'] = 2*i - 0.1 *i
-        data2.append(data2_)
 
+    for school in schools:
+        data2_ = {}
+        percent = teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
+        data2_['value'] = percent * max_ratio
+        data2_['displayValue'] = str("{0:.2f}".format(percent * 100)) + "%"
+        data2_['showValue'] = 1
+        data2_['toolText'] = "Teachers' Attendance Percentage: " + str("{0:.2f}".format(percent * 100)) + "%"
+        data2.append(data2_)
 
     dataset1["data"] = data1
     dataset2["data"] = data2

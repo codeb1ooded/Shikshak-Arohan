@@ -71,8 +71,11 @@ def teacher_attendance_school(_school, _from_day, _from_month, _from_year, _to_d
     _total_attendence_ratio = 0
     for teacher in _teachers_in_school:
         attendance = present_days_of_teacher(teacher, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
-        attendance_ratio = float(attendance) / float((_total_days - _num_of_holidays)) * 100
-        _total_attendence_ratio += attendance_ratio
+        try:
+            attendance_ratio = (float(attendance) / float((_total_days - _num_of_holidays))) * 100
+            _total_attendence_ratio += attendance_ratio
+        except:
+            _total_attendence_ratio = _total_attendence_ratio
     try:
         return float(_total_attendence_ratio) / float(_total_teachers)
     except:
@@ -85,7 +88,11 @@ def teacher_attendance_city(city_id, _from_day, _from_month, _from_year, _to_day
     num_of_schools = len(school_city)
     for school in school_city:
         ratio += teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
-    return ratio / num_of_schools
+    try:
+        ratio = float(ratio) / float(num_of_schools)
+        return ratio
+    except:
+        return 0
 
 
 def teacher_attendance_district(district_id, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year):
@@ -95,10 +102,10 @@ def teacher_attendance_district(district_id, _from_day, _from_month, _from_year,
     for school in school_district:
         ratio += teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
     try:
-        return float(ratio) / float(num_of_schools)
+        ratio = float(ratio) / float(num_of_schools)
+        return ratio
     except:
         return 0
-
 
 def teacher_attendance_state(state_id, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year):
     school_state = schools_in_a_state(state_id)
@@ -106,4 +113,8 @@ def teacher_attendance_state(state_id, _from_day, _from_month, _from_year, _to_d
     num_of_schools = len(school_state)
     for school in school_state:
         ratio += teacher_attendance_school(school, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
-    return ratio / num_of_schools
+    try:
+        ratio = float(ratio) / float(num_of_schools)
+        return ratio
+    except:
+        return 0

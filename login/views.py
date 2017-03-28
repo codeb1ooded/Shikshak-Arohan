@@ -196,7 +196,7 @@ def dummy_teacher(request):
 
 def dummy_attendance(request):
     teacher = Teacher.objects.all()
-    for i in range(0, 10000):
+    for i in range(0, 50000):
         _teacher = teacher[random.randint(0, len(teacher)-1)]
         year = random.choice(range(2000, 2017))
         month = random.choice(range(1, 13))
