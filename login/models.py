@@ -9,7 +9,7 @@ from django.db.models.signals import post_save
 class SchoolUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="schooluser")
     name = models.CharField(max_length=50)
-    timing = models.TextField(max_length=500, blank=True)
+    timing = models.CharField(max_length=500, blank=True)
     address = models.CharField(max_length=30, blank=True)
     state = models.CharField(max_length=30, blank=True)
     state_id = models.CharField(max_length=3, blank=True)
@@ -21,7 +21,9 @@ class SchoolUser(models.Model):
     numOfTeachers = models.IntegerField(blank=True, default=10)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
-    wifi_zone = models.NullBooleanField()
+    wifi_zone = models.BooleanField(default=False)
+    def __str__(self):
+        return "Id: "+ self.state_id + " Name: " + self.name
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -40,6 +42,8 @@ class State(models.Model):
 
     def __str__(self):
         return "Id: "+ self.id + " Name: " + self.state_name
+    def getName(self):
+        return self.state_name
 
 
 class District(models.Model):

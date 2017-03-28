@@ -8,6 +8,7 @@ import json
 from api.models import *
 from login.models import *
 from array import *
+from login.forms import schoolAdd
 from map.country import *
 from map.district import *
 from map.state import *
@@ -93,3 +94,28 @@ def map_city_function(request):
 def test_map(request):
     json = country_map_function()
     return render(request,"index.html", {'json_map':json, 'url':'../mapcountry?country=india'})
+
+
+def AddSchool(req):
+    if req.method == 'POST':
+        form=schoolAdd(req.POST)
+        
+        user= User.objects.get(username = req.POST.get("user",""))
+         
+        name = req.POST.get("name","")
+        state_id = req.POST.get("state","")
+        state_name=State.objects.get(id=state_id).getName()
+        #state_id,state_name=state.split(',')
+        print(state)
+        try:
+            q=SchoolUser(user=user,name=name,timing=" ", address=" ",state=state_name,state_id= state_id,district=" ", district_id=" ",city=" ",city_id=" ",numOfStudents=9,numOfTeachers=4,latitude=4.5,longitude=8.9,wifi_zone=False)
+            q.save()
+            return render(req, 'school.htm', {'user_obj': q,'is_registered':True })
+            #return HttpResponse("Name : "+name+" State : "+state)
+        except:
+            raise
+            #return HttpResponse("error")
+            return render(req, 'error')
+    else:
+        form = schoolAdd()  # an unboundform
+        return render(req,'school.htm', {'form': form})
