@@ -26,7 +26,7 @@ def return_district_categories_dataset(_district_id, _to, _from, _teacher_cat):
         label_dict['link'] = "../mapcity?city=" + city.city_name + "&cityid=" + city.id + "&to=" + _to +"&from=" +_from + "&teachercategory=" + _teacher_cat
         category_array.append(label_dict)
         data1_ = {}
-        data1_['value'] = i * 1000 + 2*i
+        data1_['value'] = student_teacher_ratio_city(city.id)
         data1.append(data1_)
         data2_ = {}
         data2_['value'] = 2*i - 0.1 *i

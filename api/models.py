@@ -6,7 +6,7 @@ class Teacher(models.Model):
 	password = models.CharField(max_length=50)
 	accessToken = models.CharField(max_length=20)
 	name = models.CharField(max_length=200)
-	category = models.CharField(max_length=200, null=True, blank=True) #primary, secondary, senior
+	category = models.CharField(max_length=10, default='none') #primary, secondary, senior
 	email = models.CharField(max_length=200)
 	age = models.IntegerField(null=True, blank=True)
 	contactNum = models.CharField(max_length=12, null=True, blank=True)
@@ -26,7 +26,7 @@ class Teacher(models.Model):
 	def __str__(self):
 	    return "Username:" + self.username +  "  Name: " + self.name
 
-		
+
 
 class Attendance_Present(models.Model):
 	teacher_username = models.ForeignKey(

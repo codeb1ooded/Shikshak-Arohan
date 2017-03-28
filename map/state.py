@@ -28,6 +28,17 @@ def return_state_categories_dataset(_state_id, _to, _from, _teacher_cat):
     dataset1 = {}
     dataset2 = {}
 
+    _to_day = _to_month = _to_year = 0
+    _from_day = _from_month = _from_year = 0
+    if len(_to) > 0:
+        _to_day = _to[0] + _to[1]
+        _to_month = _to[3] + _to[4]
+        _to_year = _to[6] + _to[7] + _to[8] + _to[9]
+    if len(_from) > 0:
+        _from_day = _from[0] + _from[1]
+        _from_month = _from[3] + _from[4]
+        _from_year = _from[6] + _from[7] + _from[8] + _from[9]
+
     dataset1["seriesname"] = "Student-Teacher ratio"
     dataset2["seriesname"] = "Teacher Attendance Monitoring"
 
@@ -43,10 +54,10 @@ def return_state_categories_dataset(_state_id, _to, _from, _teacher_cat):
         label_dict['link'] = "../mapdistrict?district=" + district.district_name + "&districtid=" + district.id + "&to=" + _to +"&from=" +_from + "&teachercategory=" + _teacher_cat
         category_array.append(label_dict)
         data1_ = {}
-        data1_['value'] = i * 1000 + 2*i
+        data1_['value'] = student_teacher_ratio_district(district.id)
         data1.append(data1_)
         data2_ = {}
-        data2_['value'] = 2*i - 0.1 *i
+        data2_['value'] = teacher_attendance_district(district.id, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year) * 2000
         data2.append(data2_)
 
 

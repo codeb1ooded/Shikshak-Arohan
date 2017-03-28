@@ -26,7 +26,7 @@ def return_city_categories_dataset(_city_id, _to, _from):
         label_dict['link'] = ""
         category_array.append(label_dict)
         data1_ = {}
-        data1_['value'] = i * 1000 + 2*i
+        data1_['value'] = student_teacher_ratio_school(school)
         data1.append(data1_)
         data2_ = {}
         data2_['value'] = 2*i - 0.1 *i

@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.core.context_processors import csrf
 from django.contrib.auth.models import User
 import json
+import string
 from api.models import *
 from login.models import *
 from array import *
@@ -17,6 +18,7 @@ from map.district import *
 from map.state import *
 from map.city import *
 import random
+from datetime import datetime
 
 @login_required(login_url="login/")
 def home(request):
@@ -133,28 +135,85 @@ def dummy_data(request):
     dummy.append("Sinnatha Govt Girls Hr Sec School")
     dummy.append("Arignar Anna Govt Hr Sec School")
     num = random.randint(10,20)
-    for i in range(0, num):
-        username = '0100010050'
-        if i < 9:
-            username = username + "0" + str(i+1)
-        else:
-            username = username + str(i+1)
-        print username
-        password = 'qwertyuiop'
+    cities = City.objects.filter(district_foreign_id = '010011')
+    for city in cities:
+        city_id = city.id
+        city_name = city.city_name
+        print city_id + "\t" + city_name
+        for i in range(0, num):
+            username = city_id + '0'
+            if i < 9:
+                username = username + "0" + str(i+1)
+            else:
+                username = username + str(i+1)
+            print username
+            password = 'qwertyuiop'
 
-        j = random.randint(0, len(dummy)-1)
-        name = dummy[j]
-        query_add_user = User(username = username, password = password)
-        query_add_user.save()
-        SchoolUser.objects.filter(user = query_add_user).update (
-									user = query_add_user,
-									name = name,
-                                    state = "Delhi",
-                                    state_id = "010",
-                                    district = "New Delhi",
-                                    district_id = "010001",
-                                    city = "New Moti Bagh",
-                                    city_id = "010001005",
-                                    )
-    json = country_map_function('', '', '')
-    return render(request,"index.html", {'json_map':json, 'url':'../mapcountry?country=india'})
+            j = random.randint(0, len(dummy)-1)
+            name = dummy[j]
+            query_add_user = User(username = username, password = password)
+            query_add_user.save()
+            SchoolUser.objects.filter(user = query_add_user).update (
+    									user = query_add_user,
+    									name = name,
+                                        state = "Delhi",
+                                        state_id = "010",
+                                        district = "East Delhi",
+                                        district_id = "010011",
+                                        city = city_name,
+                                        city_id = city_id,
+                                        numOfStudents = random.randint(500, 1000),
+                                        numOfTeachers = random.randint(10, 500),
+                                        )
+    return render(request,"index.html", {'json_map':'', 'url':'../mapcountry?country=india'})
+
+
+def dummy_teacher(request):
+    cat = []
+    cat.append('primary')
+    cat.append('secondary')
+    cat.append('senior')
+    schools = SchoolUser.objects.all()
+    for i in range(0, 1000):
+        _school = schools[random.randint(0, len(schools)-1)]
+        print _school.city
+        _username = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(16))
+        _password = 'qwertyuiop'
+        _category = cat[random.randint(0, 2)]
+        teacher = Teacher(
+                            username = _username,
+                        	password = _password,
+                        	accessToken = "N/A",
+                        	name = _username,
+                        	category = _category,
+                        	email = _username + "@gmail.com",
+                        	age = random.randint(30,50),
+                        	currentSchool  = _school
+                            )
+        teacher.save()
+    return render(request,"index.html", {'json_map':'', 'url':'../mapcountry?country=india'})
+
+
+def dummy_attendance(request):
+    teacher = Teacher.objects.all()
+    for i in range(0, 10000):
+        _teacher = teacher[random.randint(0, len(teacher)-1)]
+        year = random.choice(range(2000, 2017))
+        month = random.choice(range(1, 13))
+        day = random.choice(range(1, 29))
+        date = datetime(year, month, day)
+        Attendance_Present(teacher_username=_teacher, date=date).save()
+    return render(request,"index.html", {'json_map':'', 'url':'../mapcountry?country=india'})
+
+
+
+def dummy_attendance_holiday(request):
+    school = SchoolUser.objects.all()
+    for i in range(0, 1000):
+        _school = school[random.randint(0, len(school)-1)]
+        year = random.choice(range(2000, 2017))
+        month = random.choice(range(1, 13))
+        day = random.choice(range(1, 29))
+        date = datetime(year, month, day)
+        Attendance_Holiday(school_user=_school, date=date).save()
+    return render(request,"index.html", {'json_map':'', 'url':'../mapcountry?country=india'})
