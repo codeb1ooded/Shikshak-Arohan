@@ -75,7 +75,7 @@ def city_map_function(_city_id, _city, _to, _from):
     data_city['categories'] = categories_dataset["categories"]
     data_city['dataset'] = categories_dataset["dataset"]
 
-    json_city["type"] = "mscombidy2d"
+    json_city["type"] = "msbar2d"
     json_city["renderAt"] = "chart-container"
     json_city["width"] = "800"
     json_city["height"] = "600"

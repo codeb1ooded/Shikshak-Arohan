@@ -34,6 +34,7 @@ urlpatterns = [
     url(r'^mapcity/$', map_city_function),
 
     url(r'^testmap/$', test_map),
+    url(r'^dummy/$', dummy_data),
 
     # urls for api
     url(r'^api/create/', createUser),

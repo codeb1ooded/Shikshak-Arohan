@@ -5,12 +5,12 @@ from .arrays import *
 
 # functions for creating json for map of INDIA
 
-def return_data_array(_to, _from):
+def return_data_array(_to, _from, _teacher_cat):
 
     data_array_in_json = []
     for i in range(0, len(state)):
         current_state = state[i]
-        current_state_link = "../mapstate?state=" + current_state + "&stateid=" + state_id_int[i] + "&to=" + _to +"&from=" +_from
+        current_state_link = "../mapstate?state=" + current_state + "&stateid=" + state_id_int[i] + "&to=" + _to +"&from=" +_from + "&teachercategory=" + _teacher_cat
         data_json = {}
         data_json["id"] = state_id_int[i]
         data_json["value"] = student_teacher_ratio_state(state_id_int[i])
@@ -23,7 +23,7 @@ def return_data_array(_to, _from):
     return data_array_in_json
 
 
-def country_map_function(_to, _from):
+def country_map_function(_to, _from, _teacher_cat):
 
     final_json = {
         'type': 'india',
@@ -52,5 +52,5 @@ def country_map_function(_to, _from):
         }
     }
 
-    final_json["dataSource"]["data"] = return_data_array(_to, _from)
+    final_json["dataSource"]["data"] = return_data_array(_to, _from, _teacher_cat)
     return json.dumps(final_json)

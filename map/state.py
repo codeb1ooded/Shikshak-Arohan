@@ -20,7 +20,7 @@ def create_to_from(_to, _from):
     return dates
 
 
-def return_state_categories_dataset(_state_id, _to, _from):
+def return_state_categories_dataset(_state_id, _to, _from, _teacher_cat):
     categories_dataset = {}
     categories = []
     category_array = []
@@ -40,7 +40,7 @@ def return_state_categories_dataset(_state_id, _to, _from):
         district = districts[i]
         label_dict = {}
         label_dict['label'] = district.district_name + " - " + district.headquaters
-        label_dict['link'] = "../mapdistrict?district=" + district.district_name + "&districtid=" + district.id + "&to=" + _to +"&from=" +_from
+        label_dict['link'] = "../mapdistrict?district=" + district.district_name + "&districtid=" + district.id + "&to=" + _to +"&from=" +_from + "&teachercategory=" + _teacher_cat
         category_array.append(label_dict)
         data1_ = {}
         data1_['value'] = i * 1000 + 2*i
@@ -83,16 +83,16 @@ def return_state_chart(current_state, _to, _from):
     return chart
 
 
-def state_map_function(_state_id, _state, _to, _from):
+def state_map_function(_state_id, _state, _to, _from, _teacher_cat):
     json_state = {}
     data_state = {}
 
     data_state['chart'] = return_state_chart(_state, _to, _from)
-    categories_dataset = return_state_categories_dataset(_state_id, _to, _from)
+    categories_dataset = return_state_categories_dataset(_state_id, _to, _from, _teacher_cat)
     data_state['categories'] = categories_dataset["categories"]
     data_state['dataset'] = categories_dataset["dataset"]
 
-    json_state["type"] = "mscombidy2d"
+    json_state["type"] = "msbar2d"
     json_state["renderAt"] = "chart-container"
     json_state["width"] = "800"
     json_state["height"] = "600"

@@ -3,7 +3,7 @@ from .database_operations import *
 from array import *
 from .arrays import *
 
-def return_district_categories_dataset(_district_id, _to, _from):
+def return_district_categories_dataset(_district_id, _to, _from, _teacher_cat):
     categories_dataset = {}
     categories = []
     category_array = []
@@ -23,7 +23,7 @@ def return_district_categories_dataset(_district_id, _to, _from):
         city = cities[i]
         label_dict = {}
         label_dict['label'] = city.city_name
-        label_dict['link'] = "../mapcity?city=" + city.city_name + "&cityid=" + city.id + "&to=" + _to +"&from=" +_from
+        label_dict['link'] = "../mapcity?city=" + city.city_name + "&cityid=" + city.id + "&to=" + _to +"&from=" +_from + "&teachercategory=" + _teacher_cat
         category_array.append(label_dict)
         data1_ = {}
         data1_['value'] = i * 1000 + 2*i
@@ -66,16 +66,16 @@ def return_district_chart(current_district, _to, _from):
     return chart
 
 
-def district_map_function(_district_id, _district, _to, _from):
+def district_map_function(_district_id, _district, _to, _from, _teacher_cat):
     json_district = {}
     data_district = {}
 
     data_district['chart'] = return_district_chart(_district, _to, _from)
-    categories_dataset = return_district_categories_dataset(_district_id, _to, _from)
+    categories_dataset = return_district_categories_dataset(_district_id, _to, _from, _teacher_cat)
     data_district['categories'] = categories_dataset["categories"]
     data_district['dataset'] = categories_dataset["dataset"]
 
-    json_district["type"] = "mscombidy2d"
+    json_district["type"] = "msbar2d"
     json_district["renderAt"] = "chart-container"
     json_district["width"] = "1000"
     json_district["height"] = "600"

@@ -17,11 +17,14 @@ class SchoolUser(models.Model):
     district_id = models.CharField(max_length=6, blank=True)
     city = models.CharField(max_length=30, blank=True)
     city_id = models.CharField(max_length=9, blank=True)
-    numOfStudents = models.IntegerField(blank=True, default=100)
-    numOfTeachers = models.IntegerField(blank=True, default=10)
+    numOfStudents = models.IntegerField(default=100)
+    numOfTeachers = models.IntegerField(default=10)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     wifi_zone = models.NullBooleanField()
+
+    def __str__(self):
+        return "Username:" + self.user.username + "  Name:" + self.name
 
 @receiver(post_save, sender=User)
 def create_user_profile(sender, instance, created, **kwargs):
@@ -48,6 +51,9 @@ class District(models.Model):
     headquaters = models.CharField(max_length=50, blank=True)
     state_foreign_id = models.CharField(max_length=3, blank=True)
 
+    def __str__(self):
+        return "Id: " + self.id + " Name:" + self.district_name + " Foreign key:" + self.state_foreign_id
+
 
     def __str__(self):
         return "Id: "+ self.id + " Name: " + self.district_name +" Foreign Key: "+ self.state_foreign_id
@@ -57,7 +63,6 @@ class City(models.Model):
     city_name = models.CharField(max_length=50, blank=True)
     city_ids = models.CharField(max_length=50, blank=True)
     district_foreign_id = models.CharField(max_length=6, blank=True)
-
 
     def __str__(self):
         return "Id: "+ self.id + " Name: " + self.city_name +" Foreign Key: "+ self.district_foreign_id
