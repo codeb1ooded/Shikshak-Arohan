@@ -3,7 +3,6 @@
   <component name="ChangeListManager">
     <list default="true" id="cdb687ee-9db5-4cec-9759-e2480b81d268" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/db.sqlite3" afterPath="$PROJECT_DIR$/db.sqlite3" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -217,12 +216,12 @@
       <option name="presentableId" value="Default" />
       <updated>1490606951219</updated>
       <workItem from="1490606952523" duration="63000" />
-      <workItem from="1490667807472" duration="321000" />
+      <workItem from="1490667807472" duration="1331000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="384000" />
+    <option name="totallyTimeSpent" value="1394000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-1" y="27" width="1368" height="742" extended-state="6" />
