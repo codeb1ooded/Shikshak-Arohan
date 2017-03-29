@@ -133,9 +133,9 @@ def dummy_data(request):
     for city in cities:
         city_id = city.id
         city_name = city.city_name
-        print city_id + "\t" + city_name
+        print (city_id + "\t" + city_name)
         for i in range(0, num):
-            print username
+            print( username)
             password = 'qwertyuiop'
             j = random.randint(0, len(dummy)-1)
             name = dummy[j]
@@ -157,7 +157,18 @@ def dummy_data(request):
 
 def AddSchool(req):
     username=" "
+    check=" "
+    if not req.user.is_authenticated() :
+        return render(req,'login.html')
+    check=req.user.username
+    set_admin =["admin"]
+    if check not in set_admin:
+    	return render(req,'login.html')
+    print(req.user.username)
     if req.method == 'POST':
+
+        
+        auth=req.GET['auth']
         form=schoolAdd(req.POST)
         pass1=req.POST.get('password',"")
         name = req.POST.get("name","")
@@ -190,11 +201,11 @@ def AddSchool(req):
         w=User(username=username,password=pass1)
         w.set_password(pass1)
         w.save()
-        print state
+        print (state)
         try:
             q=SchoolUser(user=w,name=name,timing=timing, address=address,state=state_name,state_id= state_id,district=district_name, district_id=district_id,city=city_name,city_id=city_id,numOfStudents=numOfStudents,numOfTeachers=numOfTeachers,latitude=latitude,longitude=longitude,wifi_zone=wifi_zone)
             q.save()
-            return render(req, 'school.htm', {'user_obj': q,'is_registered':True })
+            return render(req, 'school.htm', {'user_name': username, 'pass':pass1,'is_registered':True })
         except:
             raise
             return render(req, 'error')
@@ -211,7 +222,7 @@ def dummy_teacher(request):
     schools = SchoolUser.objects.all()
     for i in range(0, 1000):
         _school = schools[random.randint(0, len(schools)-1)]
-        print _school.city
+        print (_school.city)
         _username = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(16))
         _password = 'qwertyuiop'
         _category = cat[random.randint(0, 2)]

@@ -1,7 +1,7 @@
 
 
 {% if is_registered %}
-    <script>alert("You are successfully registered with Name:{{user_obj.w_obj.username }} , State ID: {{ user_obj.pass1 }} , State Name: {{ user_obj.state }}")</script>
+    <script>alert("You are successfully registered with UserName:{{user_name}} , Password: {{ pass1 }} ")</script>
     {% else %}
     <form action="http://127.0.0.1:8000/school/" method="post">
     {% csrf_token %}
@@ -9,3 +9,4 @@
     <input type="submit" value="Submit">
     </form>
 {% endif %}
+

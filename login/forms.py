@@ -11,7 +11,7 @@ class LoginForm(AuthenticationForm):
                                widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'password'}))
 
 class schoolAdd(forms.Form):
-	user = forms.CharField(max_length=50)
+	#user = forms.CharField(max_length=50)
 	pass1=forms.CharField(max_length=100)
 	#user = forms.CharField(label="Username", max_length=30,widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'username'}))
     #pass1 = forms.CharField(label="Password", max_length=30,widget=forms.TextInput(attrs={'class': 'form-control', 'name': 'password'}))
