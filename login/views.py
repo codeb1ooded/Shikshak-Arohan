@@ -8,7 +8,7 @@ import json
 from api.models import *
 from login.models import *
 from array import *
-from login.forms import schoolAdd
+from login.forms import schoolAdd, LoginForm
 from map.country import *
 from map.district import *
 from map.state import *
@@ -97,18 +97,59 @@ def test_map(request):
 
 
 def AddSchool(req):
+    username=" "
+    #return render(req, 'school.htm', {'user_obj': User._meta.db_table,'is_registered':True })
     if req.method == 'POST':
         form=schoolAdd(req.POST)
         
-        user= User.objects.get(username = req.POST.get("user",""))
-         
+        #user= User.objects.get(username = req.POST.get("user",""))
+
+        #pass1=User.objects.get(password = req.POST.get("pass1",""))
+       # user="sakshisakshi16"
+        #pass1="sakshi"
+        pass1=req.POST.get('password',"")
+        #pass1=User.objects.get(password = req.POST.get("pass1",""))
+        #pass1 = User.objects.raw()
+
+#        query_add_user=User(username=user, password= pass1)
+  #      query_add_user.set_password(pass1)
+ #       query_add_user.save() 
         name = req.POST.get("name","")
         state_id = req.POST.get("state","")
         state_name=State.objects.get(id=state_id).getName()
+        city_id = req.POST.get("city","")
+        timing = req.POST.get("timing","")
+        address = req.POST.get("address","")
+        city_name=City.objects.get(id=city_id).getName()
+        district_id = req.POST.get("district","")
+        numOfStudents = req.POST.get("numOfStudents","")
+        numOfTeachers = req.POST.get("numOfTeachers","")
+        longitude = req.POST.get("longitude","")
+        latitude = req.POST.get("latitude","")
+        wifi_zone = req.POST.get("wifi_zone","")
+        district_name=District.objects.get(id=district_id).getName()
+        trying=True
+        i=0
+        while(trying):
+            username = city_id + '0'
+            if i < 9:
+                username = username + "0" + str(i+1)
+            else:
+                username = username + str(i+1)
+            i+=1
+            try:
+                x=User.objects.raw('SELECT * from auth_user where username = "'+username+'"')[0].username
+            except:
+                trying = False
+        w=User(username=username,password=pass1)
+        w.set_password(pass1)
+        w.save()
+
+
         #state_id,state_name=state.split(',')
         print(state)
         try:
-            q=SchoolUser(user=user,name=name,timing=" ", address=" ",state=state_name,state_id= state_id,district=" ", district_id=" ",city=" ",city_id=" ",numOfStudents=9,numOfTeachers=4,latitude=4.5,longitude=8.9,wifi_zone=False)
+            q=SchoolUser(user=w,name=name,timing=timing, address=address,state=state_name,state_id= state_id,district=district_name, district_id=district_id,city=city_name,city_id=city_id,numOfStudents=numOfStudents,numOfTeachers=numOfTeachers,latitude=latitude,longitude=longitude,wifi_zone=wifi_zone)
             q.save()
             return render(req, 'school.htm', {'user_obj': q,'is_registered':True })
             #return HttpResponse("Name : "+name+" State : "+state)

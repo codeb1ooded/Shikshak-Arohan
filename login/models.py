@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 import datetime
-from django.contrib.auth.models import User
+from django.contrib.auth.models import *
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
@@ -55,6 +55,8 @@ class District(models.Model):
 
     def __str__(self):
         return "Id: "+ self.id + " Name: " + self.district_name +" Foreign Key: "+ self.state_foreign_id
+    def getName(self):
+        return self.district_name
 
 class City(models.Model):
     id = models.CharField(max_length=9, primary_key=True)
@@ -65,3 +67,5 @@ class City(models.Model):
 
     def __str__(self):
         return "Id: "+ self.id + " Name: " + self.city_name +" Foreign Key: "+ self.district_foreign_id
+    def getName(self):
+        return self.city_name
