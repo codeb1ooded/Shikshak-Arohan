@@ -160,9 +160,9 @@ def AddSchool(req):
     
     if not req.user.is_authenticated() :
         return render(req,'login.html')
-    
+    check=req.user.username
     set_admin =["admin"]
-    if check not in set_admin:
+    if not req.user.is_superuser:
     	return render(req,'login.html')
     print(req.user.username)
     if req.method == 'POST':
@@ -170,7 +170,7 @@ def AddSchool(req):
         
         
         form=schoolAdd(req.POST)
-        pass1=req.POST.get('password',"")
+        pass1=req.POST.get('pass1',"")
         name = req.POST.get("name","")
         state_id = req.POST.get("state","")
         state_name=State.objects.get(id=state_id).getName()
@@ -200,6 +200,7 @@ def AddSchool(req):
                 trying = False
         w=User(username=username,password=pass1)
         w.set_password(pass1)
+        w.is_staff=True
         w.save()
         print (state)
         try:
