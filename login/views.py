@@ -13,6 +13,7 @@ from array import *
 from api.models import *
 from login.models import *
 from datetime import date
+from login.forms import schoolAdd, LoginForm
 from map.country import *
 from map.district import *
 from map.state import *
@@ -56,7 +57,7 @@ def map_state_function(request):
         if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2000'
         if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%d-%m-%Y")
         if _teacher_cat == 'undefined':              _teacher_cat = ''
-        
+
         json = state_map_function(_state_id, _state, _to, _from, _teacher_cat)
         _url = '../mapstate?state=' + _state + '&stateid=' + _state_id
         return render(request,"index.html", {'json_map':json, 'url':_url,
@@ -134,14 +135,8 @@ def dummy_data(request):
         city_name = city.city_name
         print city_id + "\t" + city_name
         for i in range(0, num):
-            username = city_id + '0'
-            if i < 9:
-                username = username + "0" + str(i+1)
-            else:
-                username = username + str(i+1)
             print username
             password = 'qwertyuiop'
-
             j = random.randint(0, len(dummy)-1)
             name = dummy[j]
             query_add_user = User(username = username, password = password)
@@ -159,6 +154,53 @@ def dummy_data(request):
                                         numOfTeachers = random.randint(10, 500),
                                         )
     return render(request,"index.html", {'json_map':'', 'url':'../mapcountry?country=india'})
+
+def AddSchool(req):
+    username=" "
+    if req.method == 'POST':
+        form=schoolAdd(req.POST)
+        pass1=req.POST.get('password',"")
+        name = req.POST.get("name","")
+        state_id = req.POST.get("state","")
+        state_name=State.objects.get(id=state_id).getName()
+        city_id = req.POST.get("city","")
+        timing = req.POST.get("timing","")
+        address = req.POST.get("address","")
+        city_name=City.objects.get(id=city_id).getName()
+        district_id = req.POST.get("district","")
+        numOfStudents = req.POST.get("numOfStudents","")
+        numOfTeachers = req.POST.get("numOfTeachers","")
+        longitude = req.POST.get("longitude","")
+        latitude = req.POST.get("latitude","")
+        wifi_zone = req.POST.get("wifi_zone","")
+        district_name=District.objects.get(id=district_id).getName()
+        trying=True
+        i=0
+        while(trying):
+            username = city_id + '0'
+            if i < 9:
+                username = username + "0" + str(i+1)
+            else:
+                username = username + str(i+1)
+            i+=1
+            try:
+                x=User.objects.raw('SELECT * from auth_user where username = "'+username+'"')[0].username
+            except:
+                trying = False
+        w=User(username=username,password=pass1)
+        w.set_password(pass1)
+        w.save()
+        print state
+        try:
+            q=SchoolUser(user=w,name=name,timing=timing, address=address,state=state_name,state_id= state_id,district=district_name, district_id=district_id,city=city_name,city_id=city_id,numOfStudents=numOfStudents,numOfTeachers=numOfTeachers,latitude=latitude,longitude=longitude,wifi_zone=wifi_zone)
+            q.save()
+            return render(req, 'school.htm', {'user_obj': q,'is_registered':True })
+        except:
+            raise
+            return render(req, 'error')
+    else:
+        form = schoolAdd()  # an unboundform
+        return render(req,'school.htm', {'form': form})
 
 
 def dummy_teacher(request):

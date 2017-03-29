@@ -2,14 +2,14 @@ from __future__ import unicode_literals
 
 from django.db import models
 import datetime
-from django.contrib.auth.models import User
+from django.contrib.auth.models import *
 from django.dispatch import receiver
 from django.db.models.signals import post_save
 
 class SchoolUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="schooluser")
     name = models.CharField(max_length=50)
-    timing = models.TextField(max_length=500, blank=True)
+    timing = models.CharField(max_length=500, blank=True)
     address = models.CharField(max_length=30, blank=True)
     state = models.CharField(max_length=30, blank=True)
     state_id = models.CharField(max_length=3, blank=True)
@@ -21,7 +21,7 @@ class SchoolUser(models.Model):
     numOfTeachers = models.IntegerField(default=10)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
-    wifi_zone = models.NullBooleanField()
+    wifi_zone = models.BooleanField(default=False)
 
     def __str__(self):
         return "Username:" + self.user.username + "  Name:" + self.name
@@ -43,6 +43,9 @@ class State(models.Model):
 
     def __str__(self):
         return "Id: "+ self.id + " Name: " + self.state_name
+        
+    def getName(self):
+        return self.state_name
 
 
 class District(models.Model):
@@ -54,9 +57,8 @@ class District(models.Model):
     def __str__(self):
         return "Id: " + self.id + " Name:" + self.district_name + " Foreign key:" + self.state_foreign_id
 
-
-    def __str__(self):
-        return "Id: "+ self.id + " Name: " + self.district_name +" Foreign Key: "+ self.state_foreign_id
+    def getName(self):
+        return self.district_name
 
 class City(models.Model):
     id = models.CharField(max_length=9, primary_key=True)
@@ -66,3 +68,6 @@ class City(models.Model):
 
     def __str__(self):
         return "Id: "+ self.id + " Name: " + self.city_name +" Foreign Key: "+ self.district_foreign_id
+
+    def getName(self):
+        return self.city_name

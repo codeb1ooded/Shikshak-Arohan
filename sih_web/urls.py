@@ -36,6 +36,7 @@ urlpatterns = [
     url(r'^testmap/$', test_map),
     url(r'^dummy/$', dummy_attendance),
 
+    url(r'^school/$', AddSchool),
     # urls for api
     url(r'^api/create/', createUser),
     url(r'^api/update/', updateUserDetails),
