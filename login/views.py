@@ -157,10 +157,10 @@ def dummy_data(request):
 
 def AddSchool(req):
     username=" "
-    check=" "
+    
     if not req.user.is_authenticated() :
         return render(req,'login.html')
-    check=req.user.username
+    
     set_admin =["admin"]
     if check not in set_admin:
     	return render(req,'login.html')
@@ -168,7 +168,7 @@ def AddSchool(req):
     if req.method == 'POST':
 
         
-        auth=req.GET['auth']
+        
         form=schoolAdd(req.POST)
         pass1=req.POST.get('password',"")
         name = req.POST.get("name","")
