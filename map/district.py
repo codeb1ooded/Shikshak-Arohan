@@ -25,7 +25,7 @@ def return_district_categories_dataset(_district_id, _to, _from, _teacher_cat):
     _from_year = _from[6] + _from[7] + _from[8] + _from[9]
 
     cities = cities_in_district(_district_id)
-    max_ratio = 0
+    max_ratio = 0.0
 
     for city in cities:
         label_dict = {}
@@ -33,17 +33,17 @@ def return_district_categories_dataset(_district_id, _to, _from, _teacher_cat):
         label_dict['link'] = "../mapcity?city=" + city.city_name + "&cityid=" + city.id + "&to=" + _to +"&from=" +_from + "&teachercategory=" + _teacher_cat
         category_array.append(label_dict)
         data1_ = {}
-        ratio = student_teacher_ratio_city(city.id)
-        data1_['value'] = ratio
-        data1_['displayValue'] = ratio
+        ratio = student_teacher_ratio_city(city.id, _teacher_cat)
+        data1_['value'] = "{0:.0f}".format(ratio)
+        data1_['displayValue'] = "{0:.0f}".format(ratio)
         data1_['showValue'] = 1
         if ratio > max_ratio:
-            max_ratio = data1_['value']
+            max_ratio = ratio
         data1.append(data1_)
 
     for city in cities:
         data2_ = {}
-        percent = teacher_attendance_city(city.id, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year)
+        percent = teacher_attendance_city(city.id, _from_day, _from_month, _from_year, _to_day, _to_month, _to_year, _teacher_cat)
         data2_['value'] = percent * max_ratio
         data2_['displayValue'] = str("{0:.2f}".format(percent * 100)) + "%"
         data2_['showValue'] = 1

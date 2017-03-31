@@ -5,6 +5,10 @@ import datetime
 from django.contrib.auth.models import *
 from django.dispatch import receiver
 from django.db.models.signals import post_save
+import random
+
+def random_num():
+    return random.randint(100, 500)
 
 class SchoolUser(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True, related_name="schooluser")
@@ -17,7 +21,9 @@ class SchoolUser(models.Model):
     district_id = models.CharField(max_length=6, blank=True)
     city = models.CharField(max_length=30, blank=True)
     city_id = models.CharField(max_length=9, blank=True)
-    numOfStudents = models.IntegerField(default=100)
+    numOfStudentsPrimary = models.IntegerField(default=random_num())
+    numOfStudentsSeconadry = models.IntegerField(default=random_num())
+    numOfStudentsSenior = models.IntegerField(default=random_num())
     numOfTeachers = models.IntegerField(default=10)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
@@ -43,7 +49,7 @@ class State(models.Model):
 
     def __str__(self):
         return "Id: "+ self.id + " Name: " + self.state_name
-        
+
     def getName(self):
         return self.state_name
 

@@ -44,9 +44,15 @@ class Attendance_Present(models.Model):
 	longitude_4 = models.FloatField(null=True, blank=True)
 	accuracy = models.FloatField(null=True, blank=True)
 
+	def __str__(self):
+		return "Date: " + str(self.date) + " Teacher: " + self.teacher_username.username
+
 class Attendance_Holiday(models.Model):
 	school_user = models.ForeignKey(
 	        SchoolUser,
 	        on_delete=models.CASCADE,
 	    )
 	date = models.DateField(auto_now=False, auto_now_add=False, null=True, blank=True)
+
+	def __str__(self):
+		return "Date: " + str(self.date) + " School: " + self.school_user.name

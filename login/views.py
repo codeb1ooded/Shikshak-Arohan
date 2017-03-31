@@ -18,6 +18,7 @@ from map.country import *
 from map.district import *
 from map.state import *
 from map.city import *
+from map.arrays import *
 import random
 from datetime import datetime
 import time
@@ -35,7 +36,7 @@ def map_country_function(request):
     if 'from' in request.GET:                   _from = request.GET['from']
     if 'teachercategory' in request.GET:        _teacher_cat = request.GET['teachercategory']
 
-    if _to == 'undefined':                       _to = '01-01-2000'
+    if _to == 'undefined':                       _to = '01-01-2015'
     if _from == 'undefined':                     _from = time.strftime("%d-%m-%Y")
     if _teacher_cat == 'undefined':              _teacher_cat = ''
     json = country_map_function(_to, _from, _teacher_cat)
@@ -54,7 +55,7 @@ def map_state_function(request):
         if 'from' in request.GET:                   _from = request.GET['from']
         if 'teachercategory' in request.GET:        _teacher_cat = request.GET['teachercategory']
 
-        if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2000'
+        if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2015'
         if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%d-%m-%Y")
         if _teacher_cat == 'undefined':              _teacher_cat = ''
 
@@ -73,7 +74,7 @@ def map_district_function(request):
         _to = 'undefined'
         _from = 'undefined'
         _teacher_cat = 'undefined'
-        if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2000'
+        if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2015'
         if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%d-%m-%Y")
         if 'teachercategory' in request.GET:        _teacher_cat = request.GET['teachercategory']
 
@@ -92,11 +93,11 @@ def map_city_function(request):
         _to = 'undefined'
         _from = 'undefined'
         _teacher_cat = 'undefined'
-        if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2000'
+        if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2015'
         if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%d-%m-%Y")
         if 'teachercategory' in request.GET:        _teacher_cat = request.GET['teachercategory']
 
-        json = city_map_function(_city_id, _city, _to, _from)
+        json = city_map_function(_city_id, _city, _to, _from, _teacher_cat)
         _url = '../mapcity?city=' + _city + '&cityid=' + _city_id
         return render(request,"index.html", {'json_map':json, 'url':_url,
                                                 'to':_to, 'from':_from, 'teacher_category':_teacher_cat})
@@ -109,55 +110,9 @@ def test_map(request):
     return render(request,"index.html", {'json_map':json, 'url':'../mapcountry?country=india'})
 
 
-def dummy_data(request):
-    dummy = []
-    dummy.append("Government High School")
-    dummy.append("Government Boys Secondary School")
-    dummy.append("Zilla Parishad High School Boys")
-    dummy.append("Zilla Parishad High School")
-    dummy.append("Govt Girls High School")
-    dummy.append("Municipal School Board")
-    dummy.append("Kendriya Vidyalaya")
-    dummy.append("Holy Cross School")
-    dummy.append("Govt Middle School")
-    dummy.append("Government Girls High School Co-Op Society")
-    dummy.append("M B N Govt Girls Higher Secondary School")
-    dummy.append("Shri Guru Harkishan Girls School")
-    dummy.append("Wesley Higher Secondary School")
-    dummy.append("Garagacha Sishu Bharati High School")
-    dummy.append("Pratibha Sr. Seconday School")
-    dummy.append("Sinnatha Govt Girls Hr Sec School")
-    dummy.append("Arignar Anna Govt Hr Sec School")
-    num = random.randint(10,20)
-    cities = City.objects.filter(district_foreign_id = '010011')
-    for city in cities:
-        city_id = city.id
-        city_name = city.city_name
-        print (city_id + "\t" + city_name)
-        for i in range(0, num):
-            print( username)
-            password = 'qwertyuiop'
-            j = random.randint(0, len(dummy)-1)
-            name = dummy[j]
-            query_add_user = User(username = username, password = password)
-            query_add_user.save()
-            SchoolUser.objects.filter(user = query_add_user).update (
-    									user = query_add_user,
-    									name = name,
-                                        state = "Delhi",
-                                        state_id = "010",
-                                        district = "East Delhi",
-                                        district_id = "010011",
-                                        city = city_name,
-                                        city_id = city_id,
-                                        numOfStudents = random.randint(500, 1000),
-                                        numOfTeachers = random.randint(10, 500),
-                                        )
-    return render(request,"index.html", {'json_map':'', 'url':'../mapcountry?country=india'})
-
 def AddSchool(req):
     username=" "
-    
+
     if not req.user.is_authenticated() :
         return render(req,'login.html')
     check=req.user.username
@@ -167,8 +122,8 @@ def AddSchool(req):
     print(req.user.username)
     if req.method == 'POST':
 
-        
-        
+
+
         form=schoolAdd(req.POST)
         pass1=req.POST.get('pass1',"")
         name = req.POST.get("name","")
@@ -215,6 +170,170 @@ def AddSchool(req):
         return render(req,'school.htm', {'form': form})
 
 
+def dummy(request):
+    dummy = []
+    dummy.append("Government High School")
+    dummy.append("Government Boys Secondary School")
+    dummy.append("Zilla Parishad High School Boys")
+    dummy.append("Zilla Parishad High School")
+    dummy.append("Govt Girls High School")
+    dummy.append("Municipal School Board")
+    dummy.append("Kendriya Vidyalaya")
+    dummy.append("Holy Cross School")
+    dummy.append("Govt Middle School")
+    dummy.append("Government Girls High School Co-Op Society")
+    dummy.append("M B N Govt Girls Higher Secondary School")
+    dummy.append("Shri Guru Harkishan Girls School")
+    dummy.append("Wesley Higher Secondary School")
+    dummy.append("Garagacha Sishu Bharati High School")
+    dummy.append("Pratibha Sr. Seconday School")
+    dummy.append("Sinnatha Govt Girls Hr Sec School")
+    dummy.append("Arignar Anna Govt Hr Sec School")
+    cat = []
+    cat.append('primary')
+    cat.append('secondary')
+    cat.append('senior')
+    state_id = '003'
+    state_name = 'Arunachal Pradesh'
+    districts = District.objects.filter(state_foreign_id = state_id)
+    for district in districts:
+        district_id = district.id
+        district_name = district.district_name
+        print ''
+        print "District: " + district_name
+        num_of_cities = random.randint(3,6)
+        for i in range(0, num_of_cities):
+            city_id = district_id
+            if i < 9:
+                city_id = district_id + '00' + str(i+1)
+            else:
+                city_id = district_id + '0' + str(i+1)
+            city_name = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(10))
+            city = City(id=city_id, city_name=city_name, district_foreign_id=district_id)
+            city.save()
+            print "City: " + city_name
+            num_of_schools = random.randint(8, 10)
+            for j in range(0, num_of_schools):
+                school_username = city_id
+                if j < 9:
+                    school_username = city_id + "00" + str(j+1)
+                else:
+                    school_username = city_id + "0" + str(j+1)
+                school_password = 'qwertyuiop'
+                school_name = dummy[random.randint(0, len(dummy)-1)]
+                auth_user = User(username = school_username, password = school_password)
+                auth_user.save()
+                num_of_teachers = random.randint(10, 30)
+                num_of_students = random.randint(300, 1500)
+                SchoolUser.objects.filter(user = auth_user).update (
+        									user = auth_user,
+        									name = dummy[random.randint(0, len(dummy)-1)],
+                                            state = state_name,
+                                            state_id = state_id,
+                                            district = district_name,
+                                            district_id = district_id,
+                                            city = city_name,
+                                            city_id = city_id,
+                                            numOfStudents = num_of_students,
+                                            numOfTeachers = num_of_teachers,
+                                            )
+                school_object = SchoolUser.objects.filter(user = auth_user)[0]
+                print "School: " + school_username
+                for k in range(0, num_of_teachers):
+                    teacher_username = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(16))
+                    teacher_password = 'qwertyuiop'
+                    teacher_category = cat[random.randint(0, 2)]
+                    teacher = Teacher(
+                                        username = teacher_username,
+                                    	password = teacher_password,
+                                    	accessToken = "N/A",
+                                    	name = teacher_username,
+                                    	category = teacher_category,
+                                    	email = teacher_username + "@gmail.com",
+                                    	age = random.randint(30,50),
+                                    	currentSchool  = school_object
+                                        )
+                    teacher.save()
+                    print "Teacher: " + teacher_username
+                    num_attendance = random.randint(100, 600)
+                    for l in range(0, num_attendance):
+                        year = random.choice(range(2015, 2017))
+                        month = random.choice(range(1, 13))
+                        day = random.choice(range(1, 29))
+                        date = datetime(year, month, day)
+                        Attendance_Present(teacher_username=teacher, date=date).save()
+                        print "Present: " + str(date)
+                num_holidays = random.randint(30, 100)
+                print ''
+                for m in range(0, num_holidays):
+                    year = random.choice(range(2010, 2017))
+                    month = random.choice(range(1, 13))
+                    day = random.choice(range(1, 29))
+                    date = datetime(year, month, day)
+                    Attendance_Holiday(school_user=school_object, date=date).save()
+                    print "Holiday: " + str(date)
+    return render(request, "error400.html")
+
+
+def dummy_data(request):
+    dummy = []
+    dummy.append("Government High School")
+    dummy.append("Government Boys Secondary School")
+    dummy.append("Zilla Parishad High School Boys")
+    dummy.append("Zilla Parishad High School")
+    dummy.append("Govt Girls High School")
+    dummy.append("Municipal School Board")
+    dummy.append("Kendriya Vidyalaya")
+    dummy.append("Holy Cross School")
+    dummy.append("Govt Middle School")
+    dummy.append("Government Girls High School Co-Op Society")
+    dummy.append("M B N Govt Girls Higher Secondary School")
+    dummy.append("Shri Guru Harkishan Girls School")
+    dummy.append("Wesley Higher Secondary School")
+    dummy.append("Garagacha Sishu Bharati High School")
+    dummy.append("Pratibha Sr. Seconday School")
+    dummy.append("Sinnatha Govt Girls Hr Sec School")
+    dummy.append("Arignar Anna Govt Hr Sec School")
+    num = random.randint(10,20)
+    cities = City.objects.filter(district_foreign_id = '010011')
+    for city in cities:
+        city_id = city.id
+        city_name = city.city_name
+        print city_id + "\t" + city_name
+        for i in range(0, num):
+            print username
+            password = 'qwertyuiop'
+            j = random.randint(0, len(dummy)-1)
+            name = dummy[j]
+            query_add_user = User(username = username, password = password)
+            query_add_user.save()
+            SchoolUser.objects.filter(user = query_add_user).update (
+    									user = query_add_user,
+    									name = name,
+                                        state = "Delhi",
+                                        state_id = "010",
+                                        district = "East Delhi",
+                                        district_id = "010011",
+                                        city = city_name,
+                                        city_id = city_id,
+                                        numOfStudents = random.randint(500, 1000),
+                                        numOfTeachers = random.randint(10, 500),
+                                        )
+    return render(request,"index.html", {'json_map':'', 'url':'../mapcountry?country=india'})
+
+def add_district(request):
+    state_id = '004'
+    state_name = 'Assam'
+    size = len(addr)/2
+    for i in range(0, size):
+        id = '004'
+        if i<9:
+            id = '00400' + str(i+1)
+        else:
+            id = '0040' + str(i+1)
+        District(id=id, district_name=addr[2*i], headquaters=addr[2*i+1], state_foreign_id=state_id).save()
+    return render(request, "error400.html")
+
 def dummy_teacher(request):
     cat = []
     cat.append('primary')
@@ -245,7 +364,7 @@ def dummy_attendance(request):
     teacher = Teacher.objects.all()
     for i in range(0, 50000):
         _teacher = teacher[random.randint(0, len(teacher)-1)]
-        year = random.choice(range(2000, 2017))
+        year = random.choice(range(2015, 2017))
         month = random.choice(range(1, 13))
         day = random.choice(range(1, 29))
         date = datetime(year, month, day)
@@ -258,7 +377,7 @@ def dummy_attendance_holiday(request):
     school = SchoolUser.objects.all()
     for i in range(0, 1000):
         _school = school[random.randint(0, len(school)-1)]
-        year = random.choice(range(2000, 2017))
+        year = random.choice(range(2015, 2017))
         month = random.choice(range(1, 13))
         day = random.choice(range(1, 29))
         date = datetime(year, month, day)

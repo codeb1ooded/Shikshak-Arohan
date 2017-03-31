@@ -260,6 +260,24 @@ def markAttendance(request):
 	except:
 		return JsonResponse({'status':'false','message':"User not present"}, status=404)
 
+''' JSON format
+username
+access_token
+'''
+def isSchoolAdded(request):
+	_username = request.GET['username']
+	_access_token = request.GET['access_token']
+	try:
+		teacher = Teacher.objects.filter(username = _username)[0]
+		if(teacher.accessToken == _access_token):
+			school = teacher.currentSchool
+			if school is not null:
+				return JsonResponse({'status':'true','message':"school present", 'school_username':school.user.username}, status=200)
+			else:
+				return JsonResponse({'status':'true','message':"no school", 'school_username':'N/A'}, status=200)
+	except:
+		return JsonResponse({'status':'false','message':"User not present"}, status=404)
+
 
 ''' JSON format
 username

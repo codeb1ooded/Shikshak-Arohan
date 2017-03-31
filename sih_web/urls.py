@@ -34,7 +34,7 @@ urlpatterns = [
     url(r'^mapcity/$', map_city_function),
 
     url(r'^testmap/$', test_map),
-    url(r'^dummy/$', dummy_attendance),
+    url(r'^dummy/$', dummy),
 
     url(r'^school/$', AddSchool),
     # urls for api
@@ -45,6 +45,7 @@ urlpatterns = [
     url(r'^api/verify/', verifyUser),
     url(r'^api/logout/', logoutUser),
     url(r'^api/markattendance/', markAttendance),
+    url(r'^api/isschooladded/', isSchoolAdded),
     url(r'^api/addschool/', addSchoolToUser),
     url(r'^api/latlong/', getLatLong),
     url(r'^api/presentholidays/', getPresentAndHolidays)
