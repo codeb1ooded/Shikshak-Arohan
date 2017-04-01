@@ -6,6 +6,7 @@ from .models import *
 from datetime import datetime
 from login.models import *
 from django.contrib.auth.models import User
+from distance import calculateDistance
 
 # Create your views here.
 def index(req):
@@ -188,7 +189,7 @@ def verifyUser(req):
 		if (query_check_user.accessToken == _access_token) :
 			return JsonResponse({"Error":"Authentication Not Successfull"})
 		else:
-			return JsonResponse({"Success":"User not verified"})
+			return JsonResponse({"Error":"User not verified"})
 	except:
 		return JsonResponse({"Error":"User not present"})
 
@@ -213,6 +214,7 @@ def logoutUser(req):
 
 ''' JSON format
 teacher_username
+school_username
 date
 latitude_1
 longitude_1
@@ -222,13 +224,19 @@ latitude_3
 longitude_3
 latitude_4
 longitude_4
-accuracy
-presence
 Sample http request: http://127.0.0.1:8000/api/markattendance/?teacher_username=abcd&date=2012-10-09&latitude=12.11&longitude=340.99&accuracy=80&presence=1
 '''
 def markAttendance(request):
 	_teacher_username = request.GET['teacher_username']
+	_school_username = request.GET['school_username']
 	_date = request.GET['date']
+
+	_user = User.objects.filter(username = _school_username)
+	_school = School.objects.filter(user = _user)
+
+	_school_latitude = _school.latitude
+	_school_longitude = _school.longitude
+
 	_latitude_1 = float(request.GET['latitude_1'])
 	_longitude_1 = float(request.GET['longitude_1'])
 	_latitude_2 = float(request.GET['latitude_2'])
@@ -237,11 +245,18 @@ def markAttendance(request):
 	_longitude_3 = float(request.GET['longitude_3'])
 	_latitude_4 = float(request.GET['latitude_4'])
 	_longitude_4 = float(request.GET['longitude_4'])
-	_accuracy = float(request.GET['accuracy'])
-	_presence = int(request.GET['presence'])
 
 	try:
 		query_check_user = Teacher.objects.filter(username = _teacher_username)[0]
+		presence = 0
+		dist1 = calculateDistance(_school_latitude, _school_longitude, _latitude_1, _longitude_1)
+		dist2 = calculateDistance(_school_latitude, _school_longitude, _latitude_2, _longitude_2)
+		dist3 = calculateDistance(_school_latitude, _school_longitude, _latitude_3, _longitude_3)
+		dist4 = calculateDistance(_school_latitude, _school_longitude, _latitude_4, _longitude_4)
+
+		if dist1 <= 5 and dist2 <= 5 and dist2 <= 5 and dist2 <= 5:
+			presence = 1
+
 		query_add_attendance = Attendance(
 									teacher_username = query_check_user,
 									date = datetime.strptime(_date, "%Y-%m-%d").date(),
@@ -253,7 +268,6 @@ def markAttendance(request):
 									longitude_3 = _longitude_3,
 									latitude_4 = _latitude_4,
 									longitude_4 = _longitude_4,
-									accuracy = _accuracy,
 									presence = _presence)
 		query_add_attendance.save()
 		return JsonResponse({'status':'true','message':"User attendance added successfully"}, status=200)

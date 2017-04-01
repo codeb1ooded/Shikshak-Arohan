@@ -3,37 +3,42 @@ from login.models import *
 from datetime import date
 
 def districts_in_state(_state_id):
-    return District.objects.filter(state_foreign_id = _state_id)
+    state = State.objects.filter(id=_state_id)[0]
+    return District.objects.filter(state_foreign_id = state)
 
 def cities_in_district(_district_id):
-    return City.objects.filter(district_foreign_id = _district_id)
+    district = District.objects.filter(id=_district_id)[0]
+    return City.objects.filter(district_foreign_id = district)
 
 def schools_in_a_state(_state_id):
-    return SchoolUser.objects.filter(state_id = _state_id)
+    print _state_id
+    state = State.objects.filter(id=_state_id)[0]
+    return SchoolUser.objects.filter(state_instance = state)
 
 
 def schools_in_a_district(_district_id):
-    return SchoolUser.objects.filter(district_id = _district_id)
+    district = District.objects.filter(id=_district_id)[0]
+    return SchoolUser.objects.filter(district_instance = district)
 
 
 def schools_in_a_city(_city_id):
-    return SchoolUser.objects.filter(city_id = _city_id)
+    return SchoolUser.objects.filter(city_instance = city)
 
 
 def student_teacher_ratio_school(school, _teacher_cat):
-    _students = school.numOfStudentsPrimary + school.numOfStudentsSeconadry + school.numOfStudentsSenior
-    _teachers = school.numOfTeachers
+    _students = school.numOfStudentsPrimary + school.numOfStudentsSecondary + school.numOfStudentsSenior
+    _teachers = school.numOfTeachersPrimary + school.numOfTeachersSecondary + school.numOfTeachersSenior
     if _teacher_cat == 'primary':
         _students = school.numOfStudentsPrimary
         _teachers = len(Teacher.objects.filter(currentSchool=school, category=_teacher_cat))
     elif _teacher_cat == 'secondary':
-        _students = school.numOfStudentsSeconadry
+        _students = school.numOfStudentsSecondary
         _teachers = len(Teacher.objects.filter(currentSchool=school, category=_teacher_cat))
     elif _teacher_cat == 'senior':
         _students = school.numOfStudentsSenior
         _teachers = len(Teacher.objects.filter(currentSchool=school, category=_teacher_cat))
     else:
-        _students = school.numOfStudentsPrimary + school.numOfStudentsSeconadry + school.numOfStudentsSenior
+        _students = school.numOfStudentsPrimary + school.numOfStudentsSecondary + school.numOfStudentsSenior
     try:
         return _students / _teachers
     except:
@@ -45,7 +50,10 @@ def student_teacher_ratio_city(city_id, _teacher_cat):
     ratio = 0
     for school in school_city:
         ratio += student_teacher_ratio_school(school, _teacher_cat)
-    return float(ratio) / float(len(school_city))
+    try:
+        return float(ratio) / float(len(school_city))
+    except:
+        return 0
 
 
 def student_teacher_ratio_district(district_id, _teacher_cat):

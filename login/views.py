@@ -121,9 +121,6 @@ def AddSchool(req):
     	return render(req,'login.html')
     print(req.user.username)
     if req.method == 'POST':
-
-
-
         form=schoolAdd(req.POST)
         pass1=req.POST.get('pass1',"")
         name = req.POST.get("name","")
@@ -171,6 +168,15 @@ def AddSchool(req):
 
 
 def dummy(request):
+    schools = SchoolUser.objects.filter(state_id='010')
+    state = State.objects.filter(id='010')[0]
+    for school in schools:
+        sc_user = school.user
+        SchoolUser.objects.filter(user = sc_user).update (state_instance = state)
+    return render(request, "error400.html")
+
+
+def dummy2(request):
     dummy = []
     dummy.append("Government High School")
     dummy.append("Government Boys Secondary School")
@@ -193,86 +199,217 @@ def dummy(request):
     cat.append('primary')
     cat.append('secondary')
     cat.append('senior')
-    state_id = '003'
-    state_name = 'Arunachal Pradesh'
-    districts = District.objects.filter(state_foreign_id = state_id)
+    state_id = '010'
+    state_name = 'New Delhi'
+    state = State.objects.filter(id='010')
+    districts = District.objects.filter(state_foreign_id = state)
     for district in districts:
         district_id = district.id
         district_name = district.district_name
         print ''
         print "District: " + district_name
-        num_of_cities = random.randint(3,6)
-        for i in range(0, num_of_cities):
-            city_id = district_id
-            if i < 9:
-                city_id = district_id + '00' + str(i+1)
-            else:
-                city_id = district_id + '0' + str(i+1)
-            city_name = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(10))
-            city = City(id=city_id, city_name=city_name, district_foreign_id=district_id)
-            city.save()
+        cities = City.objects.filter(district_foreign_id = district)
+        num_of_cities = len(cities)
+        for city in cities:
+            city_id = city.id
+            city_name = city.city_name
             print "City: " + city_name
-            num_of_schools = random.randint(8, 10)
+            num_of_schools = random.randint(4, 5)
             for j in range(0, num_of_schools):
-                school_username = city_id
-                if j < 9:
-                    school_username = city_id + "00" + str(j+1)
-                else:
-                    school_username = city_id + "0" + str(j+1)
+                school_username = city_id + "00" + str(j+1)
                 school_password = 'qwertyuiop'
                 school_name = dummy[random.randint(0, len(dummy)-1)]
                 auth_user = User(username = school_username, password = school_password)
+                print school_username
                 auth_user.save()
-                num_of_teachers = random.randint(10, 30)
-                num_of_students = random.randint(300, 1500)
                 SchoolUser.objects.filter(user = auth_user).update (
-        									user = auth_user,
-        									name = dummy[random.randint(0, len(dummy)-1)],
+                                            user = auth_user,
+                                            name = dummy[random.randint(0, len(dummy)-1)],
                                             state = state_name,
                                             state_id = state_id,
+                                            state_instance = state,
                                             district = district_name,
                                             district_id = district_id,
+                                            district_instance = district,
                                             city = city_name,
                                             city_id = city_id,
-                                            numOfStudents = num_of_students,
-                                            numOfTeachers = num_of_teachers,
+                                            city_instance = city,
+                                            numOfStudentsPrimary = random.randint(100, 150),
+                                            numOfStudentsSecondary= random.randint(100, 150),
+                                            numOfStudentsSenior = random.randint(100, 150),
+                                            numOfTeachersPrimary = 1,
+                                            numOfTeachersSecondary = 1,
+                                            numOfTeachersSenior = 1,
                                             )
                 school_object = SchoolUser.objects.filter(user = auth_user)[0]
                 print "School: " + school_username
-                for k in range(0, num_of_teachers):
-                    teacher_username = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(16))
-                    teacher_password = 'qwertyuiop'
-                    teacher_category = cat[random.randint(0, 2)]
-                    teacher = Teacher(
-                                        username = teacher_username,
-                                    	password = teacher_password,
-                                    	accessToken = "N/A",
-                                    	name = teacher_username,
-                                    	category = teacher_category,
-                                    	email = teacher_username + "@gmail.com",
-                                    	age = random.randint(30,50),
-                                    	currentSchool  = school_object
-                                        )
-                    teacher.save()
-                    print "Teacher: " + teacher_username
-                    num_attendance = random.randint(100, 600)
-                    for l in range(0, num_attendance):
-                        year = random.choice(range(2015, 2017))
-                        month = random.choice(range(1, 13))
-                        day = random.choice(range(1, 29))
-                        date = datetime(year, month, day)
-                        Attendance_Present(teacher_username=teacher, date=date).save()
-                        print "Present: " + str(date)
-                num_holidays = random.randint(30, 100)
+                for m in range(0, 3):
+                    num = 1
+                    teacher_category = ''
+                    if m == 0:
+                        teacher_category = 'primary'
+                    elif m == 1:
+                        teacher_category = 'secondary'
+                    else:
+                        teacher_category = 'senior'
+                    for l in range(0, num):
+                        teacher_username = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(16))
+                        teacher_password = 'qwertyuiop'
+                        teacher = Teacher(
+                                            username = teacher_username,
+                                            password = teacher_password,
+                                            accessToken = "N/A",
+                                            name = teacher_username,
+                                            category = teacher_category,
+                                            email = teacher_username + "@gmail.com",
+                                            age = random.randint(30,50),
+                                            currentSchool  = school_object
+                                            )
+                        teacher.save()
+                        print "Teacher: " + teacher_username
+                        num_attendance = random.randint(50, 200)
+                        for l in range(0, num_attendance):
+                            year = random.choice(range(2016, 2017))
+                            month = random.choice(range(1, 13))
+                            day = random.choice(range(1, 29))
+                            date = datetime(year, month, day)
+                            Attendance_Present(teacher_username=teacher, date=date).save()
+                            print "Present: " + str(date)
+                num_holidays = random.randint(30, 80)
                 print ''
                 for m in range(0, num_holidays):
-                    year = random.choice(range(2010, 2017))
+                    year = random.choice(range(2016, 2017))
                     month = random.choice(range(1, 13))
                     day = random.choice(range(1, 29))
                     date = datetime(year, month, day)
                     Attendance_Holiday(school_user=school_object, date=date).save()
                     print "Holiday: " + str(date)
     return render(request, "error400.html")
+
+
+def dummy3(request):
+    dummy = []
+    dummy.append("Government High School")
+    dummy.append("Government Boys Secondary School")
+    dummy.append("Zilla Parishad High School Boys")
+    dummy.append("Zilla Parishad High School")
+    dummy.append("Govt Girls High School")
+    dummy.append("Municipal School Board")
+    dummy.append("Kendriya Vidyalaya")
+    dummy.append("Holy Cross School")
+    dummy.append("Govt Middle School")
+    dummy.append("Government Girls High School Co-Op Society")
+    dummy.append("M B N Govt Girls Higher Secondary School")
+    dummy.append("Shri Guru Harkishan Girls School")
+    dummy.append("Wesley Higher Secondary School")
+    dummy.append("Garagacha Sishu Bharati High School")
+    dummy.append("Pratibha Sr. Seconday School")
+    dummy.append("Sinnatha Govt Girls Hr Sec School")
+    dummy.append("Arignar Anna Govt Hr Sec School")
+    cat = []
+    cat.append('primary')
+    cat.append('secondary')
+    cat.append('senior')
+    states = State.objects.all()
+    for state in states:
+        if state.id != '010':
+            state_id = state.id
+            state_name = state.state_name
+            num_of_districts = random.randint(1,3)
+            for i in range(0, num_of_districts):
+                district_id = state_id + '00' + str(i+1)
+                district_name = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(20))
+                headquaters = district_name
+                district = District(
+                    id = district_id,
+                    district_name = district_name,
+                    headquaters = headquaters,
+                    state_foreign_id = state
+                    )
+                district.save()
+                print "District: " + district_name
+                num_of_cities = random.randint(1,3)
+                for j in range(0, num_of_cities):
+                    city_id = district_id + '00' + str(j+1)
+                    city_name = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(20))
+                    city = City(
+                        id = city_id,
+                        city_name = city_name,
+                        district_foreign_id = district
+                        )
+                    city.save()
+                    print "City: " + city_name
+                    num_of_schools = random.randint(1, 3)
+                    for k in range(0, num_of_schools):
+                        school_username = city_id + "00" + str(k+1)
+                        school_password = 'qwertyuiop'
+                        school_name = dummy[random.randint(0, len(dummy)-1)]
+                        auth_user = User(username = school_username, password = school_password)
+                        auth_user.save()
+                        SchoolUser.objects.filter(user = auth_user).update (
+                									user = auth_user,
+                									name = dummy[random.randint(0, len(dummy)-1)],
+                                                    state = state_name,
+                                                    state_id = state_id,
+                                                    state_instance = state,
+                                                    district = district_name,
+                                                    district_id = district_id,
+                                                    district_instance = district,
+                                                    city = city_name,
+                                                    city_id = city_id,
+                                                    city_instance = city,
+                                                    numOfStudentsPrimary = random.randint(100, 150),
+                                                    numOfStudentsSecondary= random.randint(100, 150),
+                                                    numOfStudentsSenior = random.randint(100, 150),
+                                                    numOfTeachersPrimary = 1,
+                                                    numOfTeachersSecondary = 1,
+                                                    numOfTeachersSenior = 1,
+                                                    )
+                        school_object = SchoolUser.objects.filter(user = auth_user)[0]
+                        print "School: " + school_username
+                        for m in range(0, 3):
+                            num = 1
+                            teacher_category = ''
+                            if m == 0:
+                                teacher_category = 'primary'
+                            elif m == 1:
+                                teacher_category = 'secondary'
+                            else:
+                                teacher_category = 'senior'
+                            for l in range(0, num):
+                                teacher_username = ''.join(random.choice(string.ascii_uppercase + string.ascii_lowercase) for _ in range(16))
+                                teacher_password = 'qwertyuiop'
+                                teacher = Teacher(
+                                                    username = teacher_username,
+                                                	password = teacher_password,
+                                                	accessToken = "N/A",
+                                                	name = teacher_username,
+                                                	category = teacher_category,
+                                                	email = teacher_username + "@gmail.com",
+                                                	age = random.randint(30,50),
+                                                	currentSchool  = school_object
+                                                    )
+                                teacher.save()
+                                print "Teacher: " + teacher_username
+                                num_attendance = random.randint(50, 200)
+                                for l in range(0, num_attendance):
+                                    year = random.choice(range(2016, 2017))
+                                    month = random.choice(range(1, 13))
+                                    day = random.choice(range(1, 29))
+                                    date = datetime(year, month, day)
+                                    Attendance_Present(teacher_username=teacher, date=date).save()
+                                    print "Present: " + str(date)
+                        num_holidays = random.randint(30, 80)
+                        print ''
+                        for m in range(0, num_holidays):
+                            year = random.choice(range(2016, 2017))
+                            month = random.choice(range(1, 13))
+                            day = random.choice(range(1, 29))
+                            date = datetime(year, month, day)
+                            Attendance_Holiday(school_user=school_object, date=date).save()
+                            print "Holiday: " + str(date)
+    return render(request, "error400.html")
+
 
 
 def dummy_data(request):

@@ -17,14 +17,34 @@ class SchoolUser(models.Model):
     address = models.CharField(max_length=30, blank=True)
     state = models.CharField(max_length=30, blank=True)
     state_id = models.CharField(max_length=3, blank=True)
+    state_instance = models.ForeignKey(
+	        'State',
+	        on_delete=models.CASCADE,
+            blank=True,
+            null=True
+	    )
     district = models.CharField(max_length=30, blank=True)
     district_id = models.CharField(max_length=6, blank=True)
+    district_instance = models.ForeignKey(
+	        'District',
+	        on_delete=models.CASCADE,
+            blank=True,
+            null=True
+	    )
     city = models.CharField(max_length=30, blank=True)
     city_id = models.CharField(max_length=9, blank=True)
+    city_instance = models.ForeignKey(
+	        'City',
+	        on_delete=models.CASCADE,
+            blank=True,
+            null=True
+	    )
     numOfStudentsPrimary = models.IntegerField(default=random_num())
-    numOfStudentsSeconadry = models.IntegerField(default=random_num())
+    numOfStudentsSecondary = models.IntegerField(default=random_num())
     numOfStudentsSenior = models.IntegerField(default=random_num())
-    numOfTeachers = models.IntegerField(default=10)
+    numOfTeachersPrimary = models.IntegerField(default=10)
+    numOfTeachersSecondary = models.IntegerField(default=10)
+    numOfTeachersSenior = models.IntegerField(default=10)
     latitude = models.FloatField(null=True, blank=True)
     longitude = models.FloatField(null=True, blank=True)
     wifi_zone = models.BooleanField(default=False)
@@ -58,10 +78,15 @@ class District(models.Model):
     id = models.CharField(max_length=6, primary_key=True)
     district_name = models.CharField(max_length=50, blank=True)
     headquaters = models.CharField(max_length=50, blank=True)
-    state_foreign_id = models.CharField(max_length=3, blank=True)
+    state_foreign_id = models.ForeignKey(
+	        'State',
+	        on_delete=models.CASCADE,
+            blank=True,
+            null=True
+	    )
 
     def __str__(self):
-        return "Id: " + self.id + " Name:" + self.district_name + " Foreign key:" + self.state_foreign_id
+        return "Id: " + self.id + " Name:" + self.district_name + " Foreign key:" + self.state_foreign_id.id
 
     def getName(self):
         return self.district_name
@@ -70,10 +95,15 @@ class City(models.Model):
     id = models.CharField(max_length=9, primary_key=True)
     city_name = models.CharField(max_length=50, blank=True)
     city_ids = models.CharField(max_length=50, blank=True)
-    district_foreign_id = models.CharField(max_length=6, blank=True)
+    district_foreign_id = models.ForeignKey(
+	        'District',
+	        on_delete=models.CASCADE,
+            blank=True,
+            null=True
+	    )
 
     def __str__(self):
-        return "Id: "+ self.id + " Name: " + self.city_name +" Foreign Key: "+ self.district_foreign_id
+        return "Id: "+ self.id + " Name: " + self.city_name +" Foreign Key: "+ self.district_foreign_id.id
 
     def getName(self):
         return self.city_name

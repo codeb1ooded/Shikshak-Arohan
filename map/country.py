@@ -27,7 +27,10 @@ def return_data_array(_to, _from, _teacher_cat):
     for i in range(0, len(state)):
         current_state = state[i]
         ratio = ratios[i]
-        index = int(float(ratio*5) / float(max_ratio))
+        try:
+            index = int(float(ratio*5) / float(max_ratio))
+        except:
+            index = 0
         current_state_link = "../mapstate?state=" + current_state + "&stateid=" + state_id_int[i] + "&to=" + _to +"&from=" +_from + "&teachercategory=" + _teacher_cat
         data_json = {}
         data_json["id"] = state_id_int[i]

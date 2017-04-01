@@ -17,6 +17,9 @@ class Teacher(models.Model):
 	preferredLocation = models.CharField(max_length=50, null=True, blank=True)
 	qualification = models.CharField(max_length=100, null=True, blank=True)
 	teachingExperience = models.IntegerField(null=True, blank=True)
+	mac_id = models.CharField(max_length=20)
+	fingerprint_id = models.CharField(max_length=50)
+	device_id = models.CharField(max_length=50)
 	currentSchool = models.ForeignKey(
         SchoolUser,
         on_delete=models.CASCADE,
@@ -26,6 +29,28 @@ class Teacher(models.Model):
 	def __str__(self):
 	    return "Username:" + self.username +  "  Name: " + self.name
 
+
+class Education(models.Model):
+	id = models.CharField(max_length=200, primary_key=True)
+	title = models.CharField(max_length=50)
+	year_of_passing = models.CharField(max_length=4)
+	institute_name = models.CharField(max_length=50)
+	supporting_documents = models.CharField(max_length=50)
+
+
+class Teacher_Education(models.Model):
+	teacher_instance = models.ForeignKey(
+        'Teacher',
+        on_delete=models.CASCADE,
+		null=True,
+		blank=True,
+    )
+	education_instance = models.ForeignKey(
+		'Education',
+        on_delete=models.CASCADE,
+		null=True,
+		blank=True,
+	)
 
 
 class Attendance_Present(models.Model):
