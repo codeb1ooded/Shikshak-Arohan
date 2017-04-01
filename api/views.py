@@ -275,7 +275,7 @@ def isSchoolAdded(request):
 			try:
 				return JsonResponse({'status':'true','message':"school present", 'school_username':school.user.username, 'school_name':school.name}, status=200)
 			except:
-				return JsonResponse({'status':'true','message':"no school", 'school_username':'N/A'}, status=200)
+				return JsonResponse({'status':'true','message':"no school", 'school_username':'N/A', 'school_name':'N/A'}, status=200)
 		else:
 			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
 	except:
