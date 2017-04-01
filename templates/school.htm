@@ -1,12 +1,106 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .school_form_table td{
+        padding:10px;
+    }
+
+</style>
 
 
-{% if is_registered %}
-    <script>alert("You are successfully registered with UserName:{{user_name}} , Password: {{ pass }} ")</script>
-    {% else %}
-    <form action="http://127.0.0.1:8000/school/" method="post">
-    {% csrf_token %}
-   {{ form }}
-    <input type="submit" value="Submit">
-    </form>
+<div class="container">
+    <div class="row">
+        <div class="col-md-8 col-md-offset-2">
+            <div class="login-panel panel panel-default">
+                <div class="panel-heading">
+                    <h1 class="panel-title">School Registeration</h1>
+                </div>
+                <div class="panel-body">
+                    {% if is_registered %}
+                    <script>alert("You are successfully registered with UserName:{{user_name}} , Password: {{ pass }} ")</script>
+                    {% else %}
+                    <form action="http://127.0.0.1:8000/school/" method="post">
+                        {% csrf_token %}
+                        <p class="bs-component">
+                        <table class="school_form_table">
+                            <tr>
+                                <td>{{ form.name.label_tag }}</td>
+                                <td>{{ form.name }}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.pass1.label_tag }}</td>
+                                <td>{{ form.pass1}}</td>
+                            </tr>
+
+                            <tr>
+                                <td>{{ form.state.label_tag }}</td>
+
+                                <td>{{form.state}}<i style="position: absolute;left:440px"class="fa fa-chevron-down" aria-hidden="true"></i></td>
+
+
+
+                            </tr>
+                            <tr>
+                                <td>{{ form.district.label_tag }}</td>
+                                <td>{{ form.district}}<i style="position: absolute;left:490px"class="fa fa-chevron-down" aria-hidden="true"></i></td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.city.label_tag }}</td>
+                                <td>{{ form.city}}<i style="position: absolute;left:690px"class="fa fa-chevron-down" aria-hidden="true"></i></td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.timing.label_tag }}</td>
+                                <td>{{ form.timing}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.address.label_tag }}</td>
+                                <td>{{ form.address}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.latitude.label_tag }}</td>
+                                <td>{{ form.latitude}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.longitude.label_tag }}</td>
+                                <td>{{ form.longitude}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.numOfStudents.label_tag }}</td>
+                                <td>{{ form.numOfStudents}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.numOfTeachers.label_tag }}</td>
+                                <td>{{ form.numOfTeachers}}</td>
+                            </tr>
+                            <tr>
+                                <td>{{ form.wifi_zone.label_tag }}</td>
+                                <td>{{ form.wifi_zone}}</td>
+                            </tr>
+
+                        </table>
+
+                        </p>
+                        <p class="bs-component">
+                        <center>
+                            <input class="btn btn-success btn-sm" type="submit" value="Submit" onclick="return enableInput()" />
+                        </center>
+                        </p>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endif %}
 
+
+{% endblock %}
+{% block additional_scripts %}
+<script >
+    $('#id_state').select2();
+    $('#id_district').select2();
+    $('#id_city').select2();
+</script>
+{% endblock %}
