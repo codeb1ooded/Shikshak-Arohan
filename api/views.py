@@ -299,9 +299,11 @@ def addSchoolToUser(request):
 				query_get_school_user = User.objects.filter(username = _school_username)[0]
 				school = SchoolUser.objects.filter(user = query_get_school_user)[0]
 				Teacher.objects.filter(username = _username).update ( username = _username, currentSchool = school)
-				return JsonResponse({'status':'true','message':"school added successfully", 'school_username':school.user.username, 'school_name':school.name}, status=200)
+				return JsonResponse({'status':'true','message':"school added successfully", 'school_username':school.user.username,
+								'school_name':school.name, 'latitude':_latitude, 'longitude':_longitude}, status=200)
 			except:
-				return JsonResponse({'status':'false','message':"School username not present", 'school_username':"N/A", 'school_name':"N/A"}, status=404)
+				return JsonResponse({'status':'false','message':"School username not present", 'school_username':"N/A",
+								'school_name':"N/A", 'latitude':-1.0, 'longitude':-1.0}, status=404)
 		else:
 			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
 	except:
