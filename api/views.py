@@ -283,12 +283,15 @@ def isSchoolAdded(request):
 	_access_token = request.GET['access_token']
 	try:
 		teacher = Teacher.objects.filter(username = _username)[0]
+		print teacher
 		if(teacher.accessToken == _access_token):
 			school = teacher.currentSchool
-			if school is not null:
-				return JsonResponse({'status':'true','message':"school present", 'school_username':school.user.username}, status=200)
-			else:
-				return JsonResponse({'status':'true','message':"no school", 'school_username':'N/A'}, status=200)
+			try:
+				return JsonResponse({'status':'true','message':"school present", 'school_username':school.user.username, 'school_name':school.name}, status=200)
+			except:
+				return JsonResponse({'status':'true','message':"no school", 'school_username':'N/A', 'school_name':'N/A'}, status=200)
+		else:
+			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
 	except:
 		return JsonResponse({'status':'false','message':"User not present"}, status=404)
 
@@ -308,11 +311,13 @@ def addSchoolToUser(request):
 		if(query_get_user.accessToken == _access_token):
 			try:
 				query_get_school_user = User.objects.filter(username = _school_username)[0]
-				query_get_user_in_school_table = SchoolUser.objects.filter(user = query_get_school_user)[0]
-				Teacher.objects.filter(username = _username).update ( username = _username, currentSchool = query_get_user_in_school_table)
-				return JsonResponse({'status':'true','message':"school added successfully"}, status=200)
+				school = SchoolUser.objects.filter(user = query_get_school_user)[0]
+				Teacher.objects.filter(username = _username).update ( username = _username, currentSchool = school)
+				return JsonResponse({'status':'true','message':"school added successfully", 'school_username':school.user.username,
+								'school_name':school.name, 'latitude':_latitude, 'longitude':_longitude}, status=200)
 			except:
-				return JsonResponse({'status':'false','message':"School username not present"}, status=404)
+				return JsonResponse({'status':'false','message':"School username not present", 'school_username':"N/A",
+								'school_name':"N/A", 'latitude':-1.0, 'longitude':-1.0}, status=404)
 		else:
 			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
 	except:
