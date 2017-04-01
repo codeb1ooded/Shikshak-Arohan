@@ -20,6 +20,9 @@ from login.views import *
 
 from django.contrib.auth import views
 from login.forms import LoginForm
+from teacheradd.views import *
+from django.views.generic import TemplateView
+
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
@@ -48,5 +51,9 @@ urlpatterns = [
     url(r'^api/isschooladded/', isSchoolAdded),
     url(r'^api/addschool/', addSchoolToUser),
     url(r'^api/latlong/', getLatLong),
-    url(r'^api/presentholidays/', getPresentAndHolidays)
+    url(r'^api/presentholidays/', getPresentAndHolidays),
+
+    url(r'^fill_details/$',fill_details,name='fill_details'),
+    url(r'^check_user/$',check_user,name='check_user'),
+    url(r'^valid_user/$',TemplateView.as_view(template_name='user_valid.html'),name='user_valid'),
 ]
