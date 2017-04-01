@@ -269,12 +269,15 @@ def isSchoolAdded(request):
 	_access_token = request.GET['access_token']
 	try:
 		teacher = Teacher.objects.filter(username = _username)[0]
+		print teacher
 		if(teacher.accessToken == _access_token):
 			school = teacher.currentSchool
-			if school is not null:
+			try:
 				return JsonResponse({'status':'true','message':"school present", 'school_username':school.user.username, 'school_name':school.name}, status=200)
-			else:
-				return JsonResponse({'status':'true','message':"no school", 'school_username':'N/A', 'school_name':'N/A'}, status=200)
+			except:
+				return JsonResponse({'status':'true','message':"no school", 'school_username':'N/A'}, status=200)
+		else:
+			return JsonResponse({'status':'false','message':"Access Token don't match"}, status=400)
 	except:
 		return JsonResponse({'status':'false','message':"User not present"}, status=404)
 
