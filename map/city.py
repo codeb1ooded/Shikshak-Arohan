@@ -30,7 +30,7 @@ def return_city_categories_dataset(_city_id, _to, _from, _teacher_cat):
     for school in schools:
         label_dict = {}
         label_dict['label'] = school.name
-        label_dict['link'] = ""
+        label_dict['link'] = "../schoolteachers?school_username=" + school.user.username + "&to=" + _to +"&from=" +_from + "&teachercategory=" + _teacher_cat
         category_array.append(label_dict)
         data1_ = {}
         ratio = student_teacher_ratio_school(school, _teacher_cat)

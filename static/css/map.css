@@ -2,238 +2,98 @@ body {
 font-family: sans-serif;
 }
 
-.date-picker {
-margin: 20px;
-}
-
-.date-picker {
-width: 260px;
-height: auto;
-max-height: 50px;
-background: white;
-position: relative;
-overflow: hidden;
--webkit-transition: all 0.3s 0s ease-in-out;
-transition: all 0.3s 0s ease-in-out;
-}
-.date-picker .input {
-width: 100%;
-height: 50px;
-font-size: 0;
-cursor: pointer;
-}
-.date-picker .input .result, .date-picker .input button {
-display: inline-block;
-vertical-align: top;
-}
-.date-picker .input .result {
-width: calc(100% - 50px);
-height: 50px;
-line-height: 50px;
-font-size: 16px;
-padding: 0 10px;
-color: grey;
-box-sizing: border-box;
-}
-.date-picker .input button {
-width: 50px;
-height: 50px;
-background-color: #8392A7;
-color: white;
-line-height: 50px;
-border: 0;
-font-size: 18px;
-padding: 0;
-}
-.date-picker .input button:hover {
-background-color: #68768A;
-}
-.date-picker .input button:focus {
-outline: 0;
-}
-.date-picker .calendar {
-position: relative;
-width: 100%;
-background: #fff;
-border-radius: 0px;
-overflow: hidden;
-}
-.date-picker .ui-datepicker-inline {
-position: relative;
-width: 100%;
-}
-.date-picker .ui-datepicker-header {
-height: 100%;
-line-height: 50px;
-background: #8392A7;
-color: #fff;
-margin-bottom: 10px;
-}
-.date-picker .ui-datepicker-prev, .date-picker .ui-datepicker-next {
-width: 20px;
-height: 20px;
-text-indent: 9999px;
-border: 2px solid #fff;
-border-radius: 100%;
-cursor: pointer;
-overflow: hidden;
-margin-top: 12px;
-}
-.date-picker .ui-datepicker-prev {
-float: left;
-margin-left: 12px;
-}
-.date-picker .ui-datepicker-prev:after {
--webkit-transform: rotate(45deg);
-      transform: rotate(45deg);
-margin: -43px 0px 0px 8px;
-}
-.date-picker .ui-datepicker-next {
-float: right;
-margin-right: 12px;
-}
-.date-picker .ui-datepicker-next:after {
--webkit-transform: rotate(-135deg);
-      transform: rotate(-135deg);
-margin: -43px 0px 0px 6px;
-}
-.date-picker .ui-datepicker-prev:after, .date-picker .ui-datepicker-next:after {
-content: "";
-position: absolute;
-display: block;
-width: 4px;
-height: 4px;
-border-left: 2px solid #fff;
-border-bottom: 2px solid #fff;
-}
-.date-picker .ui-datepicker-prev:hover, .date-picker .ui-datepicker-next:hover, .date-picker .ui-datepicker-prev:hover:after, .date-picker .ui-datepicker-next:hover:after {
-border-color: #68768A;
-}
-.date-picker .ui-datepicker-title {
-text-align: center;
-}
-.date-picker .ui-datepicker-calendar {
-width: 100%;
-text-align: center;
-}
-.date-picker .ui-datepicker-calendar thead tr th span {
-display: block;
-width: 100%;
-color: #8392A7;
-margin-bottom: 5px;
-font-size: 13px;
-}
-.date-picker .ui-state-default {
-display: block;
-text-decoration: none;
-color: #b5b5b5;
-line-height: 40px;
-font-size: 12px;
-}
-.date-picker .ui-state-default:hover {
-background: rgba(0, 0, 0, 0.02);
-}
-.date-picker .ui-state-highlight {
-color: #68768A;
-}
-.date-picker .ui-state-active {
-color: #68768A;
-background-color: rgba(131, 146, 167, 0.12);
-font-weight: 600;
-}
-.date-picker .ui-datepicker-unselectable .ui-state-default {
-color: #eee;
-border: 2px solid transparent;
-}
-.date-picker.open {
-max-height: 400px;
-}
-.date-picker.open .input button {
-background: #68768A;
-}
-
-.btn {
-    background: #3498db;
-    background-image: -webkit-linear-gradient(top, #3498db, #2980b9);
-    background-image: -moz-linear-gradient(top, #3498db, #2980b9);
-    background-image: -ms-linear-gradient(top, #3498db, #2980b9);
-    background-image: -o-linear-gradient(top, #3498db, #2980b9);
-    background-image: linear-gradient(to bottom, #3498db, #2980b9);
-    -webkit-border-radius: 28;
-    -moz-border-radius: 28;
-    border-radius: 28px;
-    font-family: Arial;
-    color: #ffffff;
-    font-size: 20px;
-    padding: 10px 20px 10px 20px;
-    text-decoration: none;
-    margin: 20px;
-    height: 50px;
-}
-.btn:hover {
-    background: #3cb0fd;
-    background-image: -webkit-linear-gradient(top, #3cb0fd, #3498db);
-    background-image: -moz-linear-gradient(top, #3cb0fd, #3498db);
-    background-image: -ms-linear-gradient(top, #3cb0fd, #3498db);
-    background-image: -o-linear-gradient(top, #3cb0fd, #3498db);
-    background-image: linear-gradient(to bottom, #3cb0fd, #3498db);
-    text-decoration: none;
+.ui-datepicker{
+  z-index: 1000 !important;
 }
 
 
-@import "bourbon";
-
-* {
-  margin: 0;
-  padding: 0;
-  position: relative;
-  box-sizing: border-box;
-}
-
-html, body {
-  height: 100%;
-}
-
-.page {
+#from_to_datepicker label{
   display: block;
-  position: relative;
-  margin: 20px;
 }
 
-.select-dropdown {
-  position: relative;
-  background-color: #e6e6e6;
-  width: auto;
-  float: left;
-  max-width: 100%;
-  border-radius: 2px;
-  select {
-    font-family: "helvetica neue", helvetica;
-    font-size: 1rem;
-    font-weight: 200;
-    max-width: 100%;
-    padding: 8px 24px 8px 10px;
-    border: none;
-    background-color: transparent;
-    -webkit-appearance: none;
-       -moz-appearance: none;
-            appearance: none;
-    &:active,
-    &:focus {
-      outline: none;
-      box-shadow: none;
-    }
-  }
-  &:after {
-    content: " ";
-    position: absolute;
-    top: 50%;
-    margin-top: -2px;
-    right: 8px;
-    width: 0;
-    height: 0;
-    border-left: 5px solid transparent;
-    border-right: 5px solid transparent;
-    border-top: 5px solid #aaa;
-  }
+#from_to_datepicker div{
+  margin-top: 10px;
+}
+
+#data_form_container{
+  color: white;
+  padding: 15px;
+  box-shadow: 1px 1px 10px 3px grey;
+  /*background: linear-gradient( 125deg, rgb(118, 111, 242), rgb(165, 225, 183) );;*/
+  background-color: rgb(113, 113, 191);
+}
+
+#apply_button{
+  color: white;
+  border: 1px solid white;
+}
+
+
+#data_form_container select{
+  color: black;
+  padding: 5px;
+}
+
+
+#from_date{
+  color: black;
+}
+
+#to_date{
+  color: black;
+}
+
+
+#map_legend_top{
+  display: flex;
+  margin-bottom: 10px;
+  flex-direction: row;
+  justify-content: space-around;
+  text-decoration-style: none;
+
+}
+
+
+.stats_box{
+  /*box-shadow: 1px 1px 1px 1px black;*/
+  width: 23%;
+  height: 100%;
+  border: 1px solid rgb(72, 198, 114);
+  padding: 10px;
+  color: rgb(72, 198, 114);
+}
+
+
+.stat_number{
+  font-size: 24px;
+  font-weight: bold;
+}
+
+.stat_desc{
+  font-size: 13px;
+  margin-bottom: 0;
+}
+
+#box_1{
+  color: rgb(39, 62, 57);;
+  border: 1px solid rgb(39, 62, 57);
+}
+#box_2{
+  color: rgb(61, 130, 227);
+  border: 1px solid rgb(61, 130, 227);
+}
+
+#box_3{
+  
+}
+#box_4{
+  color: rgb(188, 64, 91);
+  border: 1px solid rgb(188, 64, 91);
+}
+
+
+#map_legend_left{
+  border: 1px solid grey;
+  height: 330px;
+  margin-top: 15px;
 }
