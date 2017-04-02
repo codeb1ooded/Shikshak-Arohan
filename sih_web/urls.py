@@ -35,6 +35,7 @@ urlpatterns = [
     url(r'^mapstate/$', map_state_function),
     url(r'^mapdistrict/$', map_district_function),
     url(r'^mapcity/$', map_city_function),
+    url(r'^schoolteachers/$', teacher_list),
 
     url(r'^testmap/$', test_map),
     url(r'^dummy/$', dummy),

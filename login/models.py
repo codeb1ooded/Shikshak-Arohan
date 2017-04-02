@@ -107,3 +107,10 @@ class City(models.Model):
 
     def getName(self):
         return self.city_name
+
+
+class ThresholdValues(models.Model):
+    category_name = models.CharField(max_length = 255, blank = False, null = False)
+    min_val = models.FloatField(blank = False, null = False)
+    max_val = models.FloatField(blank = False, null = False)
+    color_code = models.CharField(max_length = 10, blank = False, null = False)

@@ -41,7 +41,10 @@ def map_country_function(request):
     if _teacher_cat == 'undefined':              _teacher_cat = ''
     json = country_map_function(_to, _from, _teacher_cat)
     return render(request,"index.html", {'json_map':json, 'url':'../mapcountry?country=india',
-                                            'to':_to, 'from':_from, 'teacher_category':_teacher_cat})
+                                            'to':_to, 'from':_from, 'teacher_category':_teacher_cat,
+                                            'count_st_ratio': avg_STR_country(),
+                                            'count_teachers':country_total_teachers(), 'count_students':country_total_students(),
+                                            'count_schools':country_total_schools()})
 
 
 def map_state_function(request):
@@ -62,7 +65,10 @@ def map_state_function(request):
         json = state_map_function(_state_id, _state, _to, _from, _teacher_cat)
         _url = '../mapstate?state=' + _state + '&stateid=' + _state_id
         return render(request,"index.html", {'json_map':json, 'url':_url,
-                                                'to':_to, 'from':_from, 'teacher_category':_teacher_cat})
+                                                'to':_to, 'from':_from, 'teacher_category':_teacher_cat,
+                                                'count_st_ratio':state_avg_STR(_state_id), 'count_schools':state_school_count(_state_id),
+                                                'count_students':state_total_students(_state_id), 'count_teachers': state_total_teacher(_state_id)})
+
     else:
         return render(request,"error400.html")
 
@@ -105,6 +111,22 @@ def map_city_function(request):
         return render(request,"error400.html")
 
 
+def teacher_list(request):
+    _school_username = request.GET['school_username']
+    _to = 'undefined'
+    _from = 'undefined'
+    _teacher_cat = 'undefined'
+    if _to == 'undefined' or len(_to) == 0:              _to = '01-01-2015'
+    if _from == 'undefined' or len(_from) == 0:          _from = time.strftime("%d-%m-%Y")
+    if 'teachercategory' in request.GET:        _teacher_cat = request.GET['teachercategory']
+
+    data = school_json(_school_username, _to, _from, _teacher_cat)
+    _teachers = data['teachers']
+    _name = data['name']
+    _days = data['working_days']
+    return render(request,"teacherlist.html", {'teachers':_teachers, 'name':_name, 'working_days':_days})
+
+
 def test_map(request):
     json = country_map_function()
     return render(request,"index.html", {'json_map':json, 'url':'../mapcountry?country=india'})
@@ -112,7 +134,6 @@ def test_map(request):
 
 def AddSchool(req):
     username=" "
-
     if not req.user.is_authenticated() :
         return render(req,'login.html')
     check=req.user.username
