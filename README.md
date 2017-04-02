@@ -76,3 +76,12 @@ With our tool/software, we aim to solve both the problems with the use of intern
 <li>CSS3</li>
 <li>JavaScript and its libraries</li>
 </ul>
+
+### How to install and get this running:
+
+<ul>
+<li>Clone or download the folder</li>
+<li>Install Python 2.7.2 and Django 1.9.7</li>
+<li>Install the dependencies in requirements.txt</li>
+<li>Navigate to the directory sih_web and run command python manage.py runserver</li>
+<ul>
