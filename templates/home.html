@@ -1,13 +1,309 @@
-{% extends 'base.html' %}
 
+{% load static %}
 {% block content %}
 
-<div class="container">
-    <div class="row">
-        <div class="jumbotron">
-            <h1>Hello</h1>
-            <p>You are on your Dashboard</p>
+<!DOCTYPE html>
+<!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
+<!--[if !IE]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <title>Shikshak Arohan</title>
+    <meta name="description" content="Worthy a Bootstrap-based, Responsive HTML5 Template">
+    <meta name="author" content="htmlcoder.me">
+
+    <!-- Mobile Meta -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Favicon -->
+    <link rel="shortcut icon" href="images/favicon.ico">
+
+    <!-- Web Fonts -->
+    <link href='http://fonts.googleapis.com/css?family=Open+Sans:400italic,700italic,400,700,300&amp;subset=latin,latin-ext' rel='stylesheet' type='text/css'>
+    <link href='http://fonts.googleapis.com/css?family=Raleway:700,400,300' rel='stylesheet' type='text/css'>
+
+    <!-- Bootstrap core CSS -->
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/animations.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/bootstrap.css' %}" />
+
+    <link rel="stylesheet" type="text/css" href="{% static 'css/custom.css' %}" />
+    <!-- Font Awesome CSS -->
+    <link rel="stylesheet" type="text/css" href="{% static 'fonts/font-awesome/css/font-awesome.css' %}" />
+
+</head>
+
+<body class="no-trans">
+<!-- scrollToTop -->
+<!-- ================ -->
+<div class="scrollToTop"><i class="icon-up-open-big"></i></div>
+
+<!-- header start -->
+<!-- ================ -->
+<header class="header fixed clearfix navbar navbar-fixed-top">
+    <!--<div class="container">-->
+    <div class="row" style="background-color: black ">
+        <div class="col-md-4">
+
+            <!-- header-left start -->
+            <!-- ================ -->
+            <div class="header-left clearfix">
+
+                <!-- logo -->
+                <!--<div class="logo smooth-scroll">-->
+                <!--<a href="#banner"><img id="logo" src="images/logo.png" alt="Worthy"></a>-->
+                <!--</div>-->
+
+                <!-- name-and-slogan -->
+                <div style="margin-left: 30px " class="site-name-and-slogan smooth-scroll" >
+                    <div class="site-name"><a href="#banner"><h2 style="color: white"><b style="font-family: Serif ">SHIKSHAK AROHAN</b></h2></a></div>
+                    <div style="margin-top:-10px" class="site-slogan"><i style="color: white;margin-left: 4em">आओ पढाये देश का भविष्य आगे बढाये  </i> </div>
+                </div>
+
+            </div>
+            <!-- header-left end -->
+
+        </div>
+        <div class="col-md-8">
+
+            <!-- header-right start -->
+            <!-- ================ -->
+            <div class="header-right clearfix">
+
+                <!-- main-navigation start -->
+                <!-- ================ -->
+                <div class="main-navigation animated">
+
+                    <!-- navbar start -->
+                    <!--&lt;!&ndash; ================ &ndash;&gt;-->
+                    <!--<nav class="navbar navbar-default" role="navigation">-->
+                    <!--<div class="container-fluid">-->
+
+                    <!-- Toggle get grouped for better mobile display -->
+                    <!--<div class="navbar-header">-->
+                    <!--<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse-1">-->
+                    <!--<span class="sr-only">Toggle navigation</span>-->
+                    <!--<span class="icon-bar"></span>-->
+                    <!--<span class="icon-bar"></span>-->
+                    <!--<span class="icon-bar"></span>-->
+                    <!--</button>-->
+                    <!--</div>-->
+                    <style>
+                        #navi a {
+                            color:white;
+                            font-size: 1.4em;
+                            padding-top: 1.4em;
+                        }
+                        #navi a:hover{
+                            color:black;
+                        }
+                    </style>
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <!--<div class="collapse navbar-collapse scrollspy smooth-scroll" id="navbar-collapse-1">-->
+                    <ul id=navi style="margin-right: 3em" class="nav navbar-nav navbar-right" >
+                        <!--<li class="active"><a href="#banner">Home</a></li>-->
+                        <li><a href="#about">About</a></li>
+                        <li><a href="../mapcountry">Map</a></li>
+                        <li><a href="../login">School Login</a></li>
+                        <li><a href="#contact">Contact</a></li>
+                    </ul>
+                </div>
+
+            </div>
+            </nav>
+            <!-- navbar end -->
+
+        </div>
+        <!-- main-navigation end -->
+
+    </div>
+    <!-- header-right end -->
+
+    </div>
+    </div>
+    <!--</div>-->
+</header>
+<!-- header end -->
+
+<!-- banner start -->
+<!-- ================ -->
+<!--<div id="banner" class="banner">-->
+<!--<div class="banner-image"></div>-->
+<!--<div class="banner-caption">-->
+<!--<div class="container">-->
+<!--<div class="row">-->
+<!--<div class="col-md-8 col-md-offset-2 object-non-visible" data-animation-effect="fadeIn">-->
+<!--<h1 class="text-center">We are <span>Worthy</span></h1>-->
+<!--<p class="lead text-center">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Eos debitis provident nulla illum minus enim praesentium repellendus ullam cupiditate reiciendis optio voluptatem, recusandae nobis quis aperiam, sapiente libero ut at.</p>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!--</div>-->
+<!-- banner end -->
+
+<!-- section start -->
+<!-- ================ -->
+<div class="section clearfix object-non-visible" data-animation-effect="fadeIn">
+    <div class="container">
+        <div class="row">
+            <br><br><br>
+            <div  class="col-md-12">
+
+                <h1 style="font-family: Serif; color: darkblue " id="about" class="title text-center"><b>ABOUT <span>PROBLEM </span></b></h1>
+                <p style="font-family: Serif; color: black; " class="lead text-center" ><i>NON-AVAILABILITY OF TEACHERS IN GOVERNMENT SCHOOLS</i></p>
+                <div class="space"></div>
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div style="text-align: justify; text-justify: auto"><p >According to UNICEF India, 19% of the total primary schools are single teacher schools in India catering to nearly 12% of the total enrolment in primary classes (DISE 2004).Systemic factors - lack of teachers ,teacher absenteeism, irregular classes, overcrowded classrooms, and traditional methods of rote learning â€“ have diminished the quality of teaching/learning and the support teachers and schools can provide children.</p></div>
+
+                        <ul class="list-unstyled">
+                            <h3 style="font-family: Serif ">Main features of our project are:
+                            </h3>
+                            <li style="font-family: Serif "><i class="fa fa-caret-right pr-10 text-colored"></i> STUDENT TEACHER RATIO</li>
+                            <li style="font-family: Serif "><i class="fa fa-caret-right pr-10 text-colored"></i> PROXY/PARA TEACHERS</li>
+                            <!--<li><i class="fa fa-caret-right pr-10 text-colored"></i> Ipsam fuga error commodi</li>-->
+                            <!--<li><i class="fa fa-caret-right pr-10 text-colored"></i> Lorem ipsum dolor sit amet</li>-->
+                            <!--<li><i class="fa fa-caret-right pr-10 text-colored"></i> Dignissimos molestiae necessitatibus</li>-->
+                        </ul>
+                        <h3 style="color:orange;font-family: Serif">PROPOSED SOLUTION </h3>
+                        <!--<p>We will be providing an online portal wherein each government school will be registered with a user id and password managed by center. Using the assigned user id, every government school will be able to update vacancies, if any.-->
+                        <!--</p>-->
+                        <p style="font-family: Serif; text-align: justify; text-justify: auto">The main attraction of our application (website and app) is that it solves a serious problem in our education system. On one hand where private school children are given quality education, government school students lag behind.
+                        </p>
+                        <p style="font-family: Serif; text-align: justify; text-justify: auto">This problem needed attention because educating the youth of a country directly relates to its future. If we want India to progress, we have to educate each and every child .For which we need to remove various barriers in their learning. Non- availability of teachers contributes significantly to it. Hence, it is the need of the hour to look into the issue.
+                        </p>
+                        <p style="font-family: Serif; text-align: justify; text-justify: auto">Through our interactive and user friendly application, we have made the process of updating vacancies for teachers and improving quality of education which is imparted to the students, easy and effective. </p>
+                    </div>
+                    <div class="col-md-6">
+
+                        <!--<img src="images/section-image-1.png" alt="">-->
+                        <style>
+                            .live_demo_button {
+                                background-color: indianred; /* Green */
+                                border: none;
+                                color: white;
+                                padding: 1em 1em;
+                                text-align: center;
+                                text-decoration: none;
+                                display: inline-block;
+                                margin: 6em 8em 10em 9em ;
+                                cursor: pointer;
+                                border-radius:3em;
+                                font-size: 2em;
+                                font-family: Serif;
+                            }
+
+                        </style>
+                        <input style="font-family: Serif " type="button" class="live_demo_button" onclick="location.href='../mapcountry'" value="View Live Demo">
+                        <div class="space"></div>
+                    </div>
+                </div>
+
+            </div>
         </div>
     </div>
 </div>
+</div>
+<!-- section end -->
+
+
+<!-- .footer start -->
+<!-- ================ -->
+<div class="footer section" style="background-color: rgba(211, 211, 211, 0.35);">
+    <div class="container" >
+        <h1 style="font-family: Serif; color: #a94442" class="title text-center" id="contact" >Contact Us</h1>
+        <div class="space"></div>
+        <div class="row">
+            <div class="col-sm-6">
+                <div class="footer-content">
+                    <p class="large" style="text-align: justify; text-justify: auto;font-size: 1.2em" ><b>Do you have a technical or support related question or would you like to receive more information about Shikshak Arohan   ?</b></p>
+                    <p style="text-align: justify; text-justify: auto ;font-size: 1.1em">Please take a moment to fill out the appropriate form below. Once you have completed the form someone from our team will respond to you directly. The data you provide will be used by our team only. Feel free to ask your doubts, we guarantee that it'll be completely anonymous.</p>
+                    <ul class="list-icons">
+                        <!--<li><i class="fa fa-map-marker pr-10"></i> One infinity loop, 54100</li>-->
+                        <li><i class="fa fa-phone pr-10"></i> +91 9466563877</li>
+                        <li><i class="fa fa-fax pr-10"></i> +00 1234567891 </li>
+                        <li><i class="fa fa-envelope-o pr-10"></i>ishashanim@gmail.com</li>
+                    </ul>
+                    <ul class="social-links">
+                        <li class="facebook"><a href="https://www.facebook.com/InclusiveInnovations/"><i class="fa fa-facebook"></i></a> </li>
+                        <li class="twitter"><a href="https://twitter.com/search?q=%23indiakaidea&src=tyah"><i class="fa fa-twitter"></i></a></li>
+                        <!--<li class="skype"><i class="fa fa-skype"></i></li>-->
+                        <!--<li class="linkedin"><i class="fa fa-linkedin"></i></li>-->
+                        <li class="youtube"><a href="https://www.youtube.com/channel/UC5an05M8KAUO70lgYMZdJrA"><i class="fa fa-youtube"></i></a></li>
+                        <!--<li class="flickr"><i class="fa fa-flickr"></i></li>-->
+                        <!--<li class="pinterest"><i class="fa fa-pinterest"></i></li>-->
+                    </ul>
+                </div>
+            </div>
+            <div class="col-sm-6">
+                <div class="footer-content">
+                    <form role="form" id="footer-form">
+                        <div class="form-group has-feedback">
+                            <label class="sr-only" for="name2">Name</label>
+                            <input type="text" class="form-control" id="name2" placeholder="Name" name="name2" required>
+                            <i class="fa fa-user form-control-feedback"></i>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="sr-only" for="email2">Email address</label>
+                            <input type="email" class="form-control" id="email2" placeholder="Enter email" name="email2" required>
+                            <i class="fa fa-envelope form-control-feedback"></i>
+                        </div>
+                        <div class="form-group has-feedback">
+                            <label class="sr-only" for="message2">Message</label>
+                            <textarea class="form-control" rows="8" id="message2" placeholder="Message" name="message2" required></textarea>
+                            <i class="fa fa-pencil form-control-feedback"></i>
+                        </div>
+                        <input type="submit" value="Send" class="btn btn-default">
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- .footer end -->
+
+<!-- .subfooter start -->
+<!-- ================ -->
+<div class="subfooter">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <p class="text-center">Made by <a target="_blank" href="http://127.0.0.1:8000/home/">TechnoTwisters</a>.</p>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- .subfooter end -->
+
+</footer>
+<!-- footer end -->
+
+<script type="text/javascript" src="{% static 'js/jquery.min.js' %}" />
+<script type="text/javascript" src="{% static 'js/bootstrap.min.js' %}" />
+<script type="text/javascript" src="{% static 'js/modernizr.js' %}" />
+<!-- Modernizr javascript -->
+
+<!-- Isotope javascript -->
+<script type="text/javascript" src="{% static 'js/isotope/isotope.pkgd.min.js' %}" />
+
+<script type="text/javascript" src="{% static 'js/jquery.backstretch.min.js' %}" />
+
+<script type="text/javascript" src="{% static 'js/jquery.backstretch.min.js' %}" />
+
+<script type="text/javascript" src="{% static 'js/jquery.appear.js' %}" />
+
+<!-- Appear javascript -->
+
+<!-- Initialization of Plugins -->
+<script type="text/javascript" src="{% static 'js/template.js' %}" />
+<!-- Custom Scripts -->
+<script type="text/javascript" src="{% static 'js/custom.js' %}" />
+
+
+</body>
+</html>
+
 {% endblock %}
