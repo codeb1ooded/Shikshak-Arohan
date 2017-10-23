@@ -25,6 +25,7 @@ from django.views.generic import TemplateView
 
 
 urlpatterns = [
+    url(r'^$', views.logout, {'template_name': 'home.html'}),
     url(r'^admin/', admin.site.urls),
     url(r'^login/$', views.login, {'template_name': 'login.html', 'authentication_form': LoginForm}),
     url(r'^logout/$', views.logout, {'next_page': '/login'}),
