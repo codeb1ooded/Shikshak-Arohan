@@ -57,9 +57,9 @@ With our tool/software, we aim to solve both the problems with the use of intern
 
 
 
-###Technology Stacks Used
+### Technology Stacks Used
 
-##Android Application
+## Android Application
 <ul>
 <li>Android/Java</li>
 <li>Retrofit Library</li>
